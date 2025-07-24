@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Carrental;
+
+class CarrentalController extends Controller
+{
+
+    public function index()
+    {
+        $carrentals = \App\Models\Carrental::all();
+        return view('dashboard.carrentals.index', compact('carrentals'));
+    }
+
+    public function create()
+    {
+                $users = \App\Models\User::all();
+        $rentalcompanies = \App\Models\Rentalcompany::all();
+        $cars = \App\Models\Car::all();
+
+        return view('dashboard.carrentals.create', compact([],'users', 'rentalcompanies', 'cars'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'rentalcompany_id' => 'required|exists:rentalcompanies,id',
+            'car_id' => 'required|exists:cars,id',
+            'pickup_location' => 'required|string',
+            'return_location' => 'required|string',
+            'pickup_date' => 'required|date',
+            'return_date' => 'required|date',
+            'total_price' => 'required|numeric',
+            'booking_date' => 'required|date',
+            'status' => 'required|in:Confirmed,Cancelled,Pending'
+        ]);
+        
+        $carrental = \App\Models\Carrental::create($validated);
+        
+        return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental created successfully.');
+    }
+
+    public function show($id)
+    {
+        $carrental = \App\Models\Carrental::findOrFail($id);
+                $users = \App\Models\User::all();
+        $rentalcompanies = \App\Models\Rentalcompany::all();
+        $cars = \App\Models\Car::all();
+
+        return view('dashboard.carrentals.show', compact('carrental'));
+    }
+
+    public function edit($id)
+    {
+        $carrental = \App\Models\Carrental::findOrFail($id);
+                $users = \App\Models\User::all();
+        $rentalcompanies = \App\Models\Rentalcompany::all();
+        $cars = \App\Models\Car::all();
+
+        return view('dashboard.carrentals.edit', compact('carrental', 'users', 'rentalcompanies', 'cars'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $carrental = \App\Models\Carrental::findOrFail($id);
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'rentalcompany_id' => 'required|exists:rentalcompanies,id',
+            'car_id' => 'required|exists:cars,id',
+            'pickup_location' => 'required|string',
+            'return_location' => 'required|string',
+            'pickup_date' => 'required|date',
+            'return_date' => 'required|date',
+            'total_price' => 'required|numeric',
+            'booking_date' => 'required|date',
+            'status' => 'required|in:Confirmed,Cancelled,Pending'
+        ]);
+        
+        $carrental->update($validated);
+        
+        return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental updated successfully.');
+    }
+
+        public function destroy($id)
+    {
+        $carrental = \App\Models\Carrental::findOrFail($id);
+        $carrental->delete();
+        return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental deleted successfully.');
+    }
+    public function restore($id)
+    {
+        $carrental = \App\Models\Carrental::withTrashed()->findOrFail($id);
+        $carrental->restore();
+        return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental restored successfully.');
+    }
+}
