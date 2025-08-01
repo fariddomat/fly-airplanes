@@ -7,24 +7,6 @@
         <form action="{{ route('dashboard.hotels.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md" enctype="multipart/form-data">
             @csrf
                         <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.name')</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="w-full border border-gray-300 rounded p-2">
-                @error('name')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.address')</label>
-                <textarea name="address" class="w-full border border-gray-300 rounded p-2">{{ old('address') }}</textarea>
-                @error('address')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.city')</label>
-                <input type="text" name="city" value="{{ old('city') }}" class="w-full border border-gray-300 rounded p-2">
-                @error('city')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.country')</label>
                 <input type="text" name="country" value="{{ old('country') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('country')
@@ -38,7 +20,7 @@
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.email')</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="w-full border border-gray-300 rounded p-2">
+                <input type="text" name="email" value="{{ old('email') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('email')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -52,6 +34,29 @@
                 <label class="block text-sm font-medium text-gray-700">@lang('site.description')</label>
                 <textarea name="description" class="w-full border border-gray-300 rounded p-2">{{ old('description') }}</textarea>
                 @error('description')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.price_per_night')</label>
+                <input type="number" name="price_per_night" value="{{ old('price_per_night') }}" class="w-full border border-gray-300 rounded p-2" >
+                @error('price_per_night')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.rating')</label>
+                <input type="number" name="rating" value="{{ old('rating') }}" class="w-full border border-gray-300 rounded p-2" >
+                @error('rating')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.amenities')</label>
+                <textarea name="amenities" class="w-full border border-gray-300 rounded p-2" placeholder="Enter JSON data">{{ old('amenities') }}</textarea>
+                @error('amenities')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.image')</label>
+                <input type="file" name="image" accept="image/*" class="w-full border border-gray-300 rounded p-2">                @error('image')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

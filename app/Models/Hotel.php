@@ -10,21 +10,22 @@ class Hotel extends Model
     
     use SoftDeletes;
 
-    protected $fillable = ['name', 'address', 'city', 'country', 'phone_number', 'email', 'star_rating', 'description'];
+    protected $fillable = ['country', 'phone_number', 'email', 'star_rating', 'description', 'price_per_night', 'rating', 'amenities', 'image'];
 
     public static function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'star_rating' => 'nullable|numeric',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'price_per_night' => 'required|numeric',
+            'rating' => 'required|numeric',
+            'amenities' => 'nullable|json',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 
-    protected $searchable = ['name', 'address', 'city', 'country', 'phone_number', 'email', 'description'];
+    protected $searchable = ['country', 'phone_number', 'email', 'description'];
 }

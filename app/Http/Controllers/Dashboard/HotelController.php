@@ -25,16 +25,20 @@ class HotelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'star_rating' => 'nullable|numeric',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'price_per_night' => 'required|numeric',
+            'rating' => 'required|numeric',
+            'amenities' => 'nullable|json',
+            'image' => 'nullable|image|max:2048'
         ]);
-        
+                if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('public/images');
+        }
+
         $hotel = \App\Models\Hotel::create($validated);
         
         return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel created successfully.');
@@ -58,16 +62,21 @@ class HotelController extends Controller
     {
         $hotel = \App\Models\Hotel::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'star_rating' => 'nullable|numeric',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'price_per_night' => 'required|numeric',
+            'rating' => 'required|numeric',
+            'amenities' => 'nullable|json',
+            'image' => 'nullable|image|max:2048'
         ]);
-        
+                if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('public/images');
+            if ($hotel->image) Storage::delete($hotel->image);
+        }
+
         $hotel->update($validated);
         
         return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel updated successfully.');
