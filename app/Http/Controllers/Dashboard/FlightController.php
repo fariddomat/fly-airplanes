@@ -18,35 +18,41 @@ class FlightController extends Controller
 
     public function create()
     {
-                $departureAirports = \App\Models\Airport::all();
-        $arrivalAirports = \App\Models\Airport::all();
+                $airlines = \App\Models\Airline::all();
+        $departureAirports = \App\Models\DepartureAirport::all();
+        $arrivalAirports = \App\Models\ArrivalAirport::all();
 
-        return view('dashboard.flights.create', compact([],'departureAirports', 'arrivalAirports'));
+        return view('dashboard.flights.create', compact([],'airlines', 'departureAirports', 'arrivalAirports'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'departure_airport_id' => 'required|exists:airports,id',
-            'arrival_airport_id' => 'required|exists:airports,id',
+            'airline_id' => 'required|exists:airlines,id',
+            'departure_airport_id' => 'required|exists:departure_airports,id',
+            'arrival_airport_id' => 'required|exists:arrival_airports,id',
             'departure_time' => 'required|date',
             'arrival_time' => 'required|date',
             'flight_number' => 'required|string|max:255',
             'price' => 'required|numeric',
             'available_seats' => 'required|numeric',
-            'class' => 'required|in:Economy,Business,First'
+            'class' => 'required|in:Economy,Business,First',
+            'duration' => 'required|string|max:255',
+            'stops' => 'required|in:direct,one-stop,multi-stop',
+            'amenities' => 'nullable|string|max:255'
         ]);
-
+        
         $flight = \App\Models\Flight::create($validated);
-
+        
         return redirect()->route('dashboard.flights.index')->with('success', 'Flight created successfully.');
     }
 
     public function show($id)
     {
         $flight = \App\Models\Flight::findOrFail($id);
-                $departureAirports = \App\Models\Airport::all();
-        $arrivalAirports = \App\Models\Airport::all();
+                $airlines = \App\Models\Airline::all();
+        $departureAirports = \App\Models\DepartureAirport::all();
+        $arrivalAirports = \App\Models\ArrivalAirport::all();
 
         return view('dashboard.flights.show', compact('flight'));
     }
@@ -54,28 +60,33 @@ class FlightController extends Controller
     public function edit($id)
     {
         $flight = \App\Models\Flight::findOrFail($id);
-                $departureAirports = \App\Models\Airport::all();
-        $arrivalAirports = \App\Models\Airport::all();
+                $airlines = \App\Models\Airline::all();
+        $departureAirports = \App\Models\DepartureAirport::all();
+        $arrivalAirports = \App\Models\ArrivalAirport::all();
 
-        return view('dashboard.flights.edit', compact('flight', 'departureAirports', 'arrivalAirports'));
+        return view('dashboard.flights.edit', compact('flight', 'airlines', 'departureAirports', 'arrivalAirports'));
     }
 
     public function update(Request $request, $id)
     {
         $flight = \App\Models\Flight::findOrFail($id);
         $validated = $request->validate([
-            'departure_airport_id' => 'required|exists:airports,id',
-            'arrival_airport_id' => 'required|exists:airports,id',
+            'airline_id' => 'required|exists:airlines,id',
+            'departure_airport_id' => 'required|exists:departure_airports,id',
+            'arrival_airport_id' => 'required|exists:arrival_airports,id',
             'departure_time' => 'required|date',
             'arrival_time' => 'required|date',
             'flight_number' => 'required|string|max:255',
             'price' => 'required|numeric',
             'available_seats' => 'required|numeric',
-            'class' => 'required|in:Economy,Business,First'
+            'class' => 'required|in:Economy,Business,First',
+            'duration' => 'required|string|max:255',
+            'stops' => 'required|in:direct,one-stop,multi-stop',
+            'amenities' => 'nullable|string|max:255'
         ]);
-
+        
         $flight->update($validated);
-
+        
         return redirect()->route('dashboard.flights.index')->with('success', 'Flight updated successfully.');
     }
 

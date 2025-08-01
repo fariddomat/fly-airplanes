@@ -11,9 +11,10 @@ return new class extends Migration
         Schema::create('rentalcompanies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('address');
+            $table->string('address');
             $table->string('phone_number');
             $table->string('email');
+            $table->string('logo');
             $table->softDeletes();
             $table->timestamps();
         });

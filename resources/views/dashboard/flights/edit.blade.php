@@ -8,11 +8,22 @@
             @csrf
             @method('PUT')
                         <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.airline_id')</label>
+                <select name="airline_id" class="w-full border border-gray-300 rounded p-2">
+                    <option value="">@lang('site.select_airline_id')</option>
+                    @foreach ($airlines as $option)
+                        <option value="{{ $option->id }}" {{ $flight->airline_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
+                    @endforeach
+                </select>
+                @error('airline_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.departure_airport_id')</label>
                 <select name="departure_airport_id" class="w-full border border-gray-300 rounded p-2">
                     <option value="">@lang('site.select_departure_airport_id')</option>
                     @foreach ($departureAirports as $option)
-                        <option value="{{ $option->id }}" {{ $flight->departure_airport_id == $option->id ? 'selected' : '' }}>{{ $option->airport_name }}</option>
+                        <option value="{{ $option->id }}" {{ $flight->departure_airport_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
                 </select>
                 @error('departure_airport_id')
@@ -23,7 +34,7 @@
                 <select name="arrival_airport_id" class="w-full border border-gray-300 rounded p-2">
                     <option value="">@lang('site.select_arrival_airport_id')</option>
                     @foreach ($arrivalAirports as $option)
-                        <option value="{{ $option->id }}" {{ $flight->arrival_airport_id == $option->id ? 'selected' : '' }}>{{ $option->airport_name }}</option>
+                        <option value="{{ $option->id }}" {{ $flight->arrival_airport_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
                 </select>
                 @error('arrival_airport_id')
@@ -69,6 +80,30 @@
 
                 </select>
                 @error('class')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.duration')</label>
+                <input type="text" name="duration" value="{{ old('duration', $flight->duration) }}" class="w-full border border-gray-300 rounded p-2">
+                @error('duration')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.stops')</label>
+                <select name="stops" class="w-full border border-gray-300 rounded p-2">
+                    <option value="">@lang('site.select_stops')</option>
+                    <option value="direct" {{ old('stops', $flight->stops) == 'direct' ? 'selected' : '' }}>direct</option>
+                    <option value="one-stop" {{ old('stops', $flight->stops) == 'one-stop' ? 'selected' : '' }}>one-stop</option>
+                    <option value="multi-stop" {{ old('stops', $flight->stops) == 'multi-stop' ? 'selected' : '' }}>multi-stop</option>
+
+                </select>
+                @error('stops')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.amenities')</label>
+                <input type="text" name="amenities" value="{{ old('amenities', $flight->amenities) }}" class="w-full border border-gray-300 rounded p-2">
+                @error('amenities')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

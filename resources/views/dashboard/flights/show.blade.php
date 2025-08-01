@@ -6,6 +6,15 @@
 
         <div class="bg-white p-6 rounded-lg shadow-md">
                         <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.airline_id')</label>
+                <p class="text-gray-900">
+                    @isset($flight->airline)
+                        {{ $flight->airline->name ?? '—' }}
+                    @else
+                        {{ $flight->airline_id ?? '—' }}
+                    @endisset
+                </p>
+            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.departure_airport_id')</label>
                 <p class="text-gray-900">
                     @isset($flight->departureAirport)
@@ -41,6 +50,15 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.class')</label>
                 <p class="text-gray-900">{{ $flight->class ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.duration')</label>
+                <p class="text-gray-900">{{ $flight->duration ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.stops')</label>
+                <p class="text-gray-900">{{ $flight->stops ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.amenities')</label>
+                <p class="text-gray-900">{{ $flight->amenities ?? '—' }}</p>
             </div>
             <a href="{{ route('dashboard.flights.index') }}" class="mt-4 inline-block px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-700">
                 @lang('site.back')

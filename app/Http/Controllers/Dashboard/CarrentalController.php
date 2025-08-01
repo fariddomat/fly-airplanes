@@ -19,25 +19,29 @@ class CarrentalController extends Controller
     public function create()
     {
                 $users = \App\Models\User::all();
-        $rentalcompanies = \App\Models\Rentalcompany::all();
         $cars = \App\Models\Car::all();
 
-        return view('dashboard.carrentals.create', compact([],'users', 'rentalcompanies', 'cars'));
+        return view('dashboard.carrentals.create', compact([],'users', 'cars'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'rentalcompany_id' => 'required|exists:rentalcompanies,id',
             'car_id' => 'required|exists:cars,id',
             'pickup_location' => 'required|string',
-            'return_location' => 'required|string',
+            'return_location' => 'nullable|string',
             'pickup_date' => 'required|date',
+            'pickup_time' => 'required|string|max:255',
             'return_date' => 'required|date',
+            'dropoff_time' => 'required|string|max:255',
             'total_price' => 'required|numeric',
             'booking_date' => 'required|date',
-            'status' => 'required|in:Confirmed,Cancelled,Pending'
+            'status' => 'required|in:Confirmed,Cancelled,Pending',
+            'rental_type' => 'required|in:same-location,different-location',
+            'driver_age' => 'required|in:21-24,25-29,30-64,65+',
+            'extras' => 'nullable|json',
+            'driver_details' => 'nullable|json'
         ]);
         
         $carrental = \App\Models\Carrental::create($validated);
@@ -49,7 +53,6 @@ class CarrentalController extends Controller
     {
         $carrental = \App\Models\Carrental::findOrFail($id);
                 $users = \App\Models\User::all();
-        $rentalcompanies = \App\Models\Rentalcompany::all();
         $cars = \App\Models\Car::all();
 
         return view('dashboard.carrentals.show', compact('carrental'));
@@ -59,10 +62,9 @@ class CarrentalController extends Controller
     {
         $carrental = \App\Models\Carrental::findOrFail($id);
                 $users = \App\Models\User::all();
-        $rentalcompanies = \App\Models\Rentalcompany::all();
         $cars = \App\Models\Car::all();
 
-        return view('dashboard.carrentals.edit', compact('carrental', 'users', 'rentalcompanies', 'cars'));
+        return view('dashboard.carrentals.edit', compact('carrental', 'users', 'cars'));
     }
 
     public function update(Request $request, $id)
@@ -70,15 +72,20 @@ class CarrentalController extends Controller
         $carrental = \App\Models\Carrental::findOrFail($id);
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'rentalcompany_id' => 'required|exists:rentalcompanies,id',
             'car_id' => 'required|exists:cars,id',
             'pickup_location' => 'required|string',
-            'return_location' => 'required|string',
+            'return_location' => 'nullable|string',
             'pickup_date' => 'required|date',
+            'pickup_time' => 'required|string|max:255',
             'return_date' => 'required|date',
+            'dropoff_time' => 'required|string|max:255',
             'total_price' => 'required|numeric',
             'booking_date' => 'required|date',
-            'status' => 'required|in:Confirmed,Cancelled,Pending'
+            'status' => 'required|in:Confirmed,Cancelled,Pending',
+            'rental_type' => 'required|in:same-location,different-location',
+            'driver_age' => 'required|in:21-24,25-29,30-64,65+',
+            'extras' => 'nullable|json',
+            'driver_details' => 'nullable|json'
         ]);
         
         $carrental->update($validated);

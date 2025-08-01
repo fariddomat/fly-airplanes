@@ -24,6 +24,15 @@
                     @endisset
                 </p>
             </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.return_flight_id')</label>
+                <p class="text-gray-900">
+                    @isset($booking->returnFlight)
+                        {{ $booking->returnFlight->name ?? '—' }}
+                    @else
+                        {{ $booking->return_flight_id ?? '—' }}
+                    @endisset
+                </p>
+            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.num_passengers')</label>
                 <p class="text-gray-900">{{ $booking->num_passengers ?? '—' }}</p>
             </div>            <div class="mb-4">
@@ -35,6 +44,12 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <p class="text-gray-900">{{ $booking->status ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.trip_type')</label>
+                <p class="text-gray-900">{{ $booking->trip_type ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.passenger_details')</label>
+                <p class="text-gray-900">{{ $booking->passenger_details ?? '—' }}</p>
             </div>
             <a href="{{ route('dashboard.bookings.index') }}" class="mt-4 inline-block px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-700">
                 @lang('site.back')

@@ -10,15 +10,16 @@ class Airline extends Model
     
     use SoftDeletes;
 
-    protected $fillable = ['airline_name', 'airline_code'];
+    protected $fillable = ['name', 'code', 'img'];
 
     public static function rules()
     {
         return [
-            'airline_name' => 'required|string|max:255',
-            'airline_code' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 
-    protected $searchable = ['airline_name', 'airline_code'];
+    protected $searchable = ['name', 'code'];
 }

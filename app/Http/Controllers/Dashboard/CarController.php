@@ -27,11 +27,22 @@ class CarController extends Controller
     {
         $validated = $request->validate([
             'rentalcompany_id' => 'required|exists:rentalcompanies,id',
-            'car_model' => 'nullable|string|max:255',
-            'car_make' => 'nullable|string|max:255',
-            'car_year' => 'required|numeric'
+            'name' => 'required|string|max:255',
+            'year' => 'required|numeric',
+            'type' => 'required|in:economy,compact,sedan,suv,luxury,van,convertible',
+            'transmission' => 'required|in:automatic,manual',
+            'fuel_type' => 'required|in:petrol,diesel,hybrid,electric',
+            'price' => 'required|numeric',
+            'img' => 'required|image|max:2048',
+            'seats' => 'required|numeric',
+            'luggage_capacity' => 'required|numeric',
+            'features' => 'nullable|json',
+            'rating' => 'nullable|numeric'
         ]);
-        
+                if ($request->hasFile('img')) {
+            $validated['img'] = $request->file('img')->store('public/imgs');
+        }
+
         $car = \App\Models\Car::create($validated);
         
         return redirect()->route('dashboard.cars.index')->with('success', 'Car created successfully.');
@@ -58,11 +69,23 @@ class CarController extends Controller
         $car = \App\Models\Car::findOrFail($id);
         $validated = $request->validate([
             'rentalcompany_id' => 'required|exists:rentalcompanies,id',
-            'car_model' => 'nullable|string|max:255',
-            'car_make' => 'nullable|string|max:255',
-            'car_year' => 'required|numeric'
+            'name' => 'required|string|max:255',
+            'year' => 'required|numeric',
+            'type' => 'required|in:economy,compact,sedan,suv,luxury,van,convertible',
+            'transmission' => 'required|in:automatic,manual',
+            'fuel_type' => 'required|in:petrol,diesel,hybrid,electric',
+            'price' => 'required|numeric',
+            'img' => 'required|image|max:2048',
+            'seats' => 'required|numeric',
+            'luggage_capacity' => 'required|numeric',
+            'features' => 'nullable|json',
+            'rating' => 'nullable|numeric'
         ]);
-        
+                if ($request->hasFile('img')) {
+            $validated['img'] = $request->file('img')->store('public/imgs');
+            if ($car->img) Storage::delete($car->img);
+        }
+
         $car->update($validated);
         
         return redirect()->route('dashboard.cars.index')->with('success', 'Car updated successfully.');

@@ -5,7 +5,7 @@
 
         <div class="overflow-x-auto mt-4">
             <x-autocrud::table
-                :columns="['id', 'name', 'phone_number']"
+                :columns="['id', 'name', 'address', 'phone_number', 'email', 'logo']"
                 :data="$rentalcompanies"
                 routePrefix="dashboard.rentalcompanies"
                 :show="true"

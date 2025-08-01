@@ -15,15 +15,6 @@
                     @endisset
                 </p>
             </div>            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.rentalcompany_id')</label>
-                <p class="text-gray-900">
-                    @isset($carrental->rentalcompany)
-                        {{ $carrental->rentalcompany->name ?? '—' }}
-                    @else
-                        {{ $carrental->rentalcompany_id ?? '—' }}
-                    @endisset
-                </p>
-            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.car_id')</label>
                 <p class="text-gray-900">
                     @isset($carrental->car)
@@ -40,10 +31,16 @@
                 <p class="text-gray-900">{{ $carrental->return_location ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.pickup_date')</label>
-                <p class="text-gray-900">{{ $carrental->pickup_date ? $carrental->pickup_date->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $carrental->pickup_date ? $carrental->pickup_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.pickup_time')</label>
+                <p class="text-gray-900">{{ $carrental->pickup_time ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.return_date')</label>
-                <p class="text-gray-900">{{ $carrental->return_date ? $carrental->return_date->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $carrental->return_date ? $carrental->return_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.dropoff_time')</label>
+                <p class="text-gray-900">{{ $carrental->dropoff_time ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.total_price')</label>
                 <p class="text-gray-900">{{ $carrental->total_price ?? '—' }}</p>
@@ -53,6 +50,18 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <p class="text-gray-900">{{ $carrental->status ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.rental_type')</label>
+                <p class="text-gray-900">{{ $carrental->rental_type ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.driver_age')</label>
+                <p class="text-gray-900">{{ $carrental->driver_age ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.extras')</label>
+                <pre class="text-gray-900 bg-gray-100 p-2 rounded">{{ json_encode($carrental->extras, JSON_PRETTY_PRINT) ?? '—' }}</pre>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.driver_details')</label>
+                <pre class="text-gray-900 bg-gray-100 p-2 rounded">{{ json_encode($carrental->driver_details, JSON_PRETTY_PRINT) ?? '—' }}</pre>
             </div>
             <a href="{{ route('dashboard.carrentals.index') }}" class="mt-4 inline-block px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-700">
                 @lang('site.back')

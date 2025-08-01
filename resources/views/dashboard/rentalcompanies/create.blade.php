@@ -14,7 +14,7 @@
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.address')</label>
-                <textarea name="address" class="w-full border border-gray-300 rounded p-2">{{ old('address') }}</textarea>
+                <input type="text" name="address" value="{{ old('address') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('address')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -26,8 +26,14 @@
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.email')</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="w-full border border-gray-300 rounded p-2">
+                <input type="text" name="email" value="{{ old('email') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.logo')</label>
+                <input type="text" name="logo" value="{{ old('logo') }}" class="w-full border border-gray-300 rounded p-2">
+                @error('logo')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

@@ -5,7 +5,7 @@
 
         <div class="overflow-x-auto mt-4">
             <x-autocrud::table
-                :columns="['id', 'departure_airport_id', 'arrival_airport_id', 'departure_time', 'arrival_time']"
+                :columns="['id', 'airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_time', 'arrival_time', 'flight_number', 'price', 'available_seats', 'class', 'duration', 'stops', 'amenities']"
                 :data="$flights"
                 routePrefix="dashboard.flights"
                 :show="true"

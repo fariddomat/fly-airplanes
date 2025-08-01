@@ -26,9 +26,10 @@ class RentalcompanyController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string',
+            'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
-            'email' => 'required|string|max:255'
+            'email' => 'required|string|max:255',
+            'logo' => 'required|string|max:255'
         ]);
         
         $rentalcompany = \App\Models\Rentalcompany::create($validated);
@@ -55,9 +56,10 @@ class RentalcompanyController extends Controller
         $rentalcompany = \App\Models\Rentalcompany::findOrFail($id);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string',
+            'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
-            'email' => 'required|string|max:255'
+            'email' => 'required|string|max:255',
+            'logo' => 'required|string|max:255'
         ]);
         
         $rentalcompany->update($validated);

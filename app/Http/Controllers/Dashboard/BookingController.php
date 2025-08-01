@@ -12,7 +12,7 @@ class BookingController extends Controller
 
     public function index()
     {
-        $bookings = \App\Models\Booking::with(['user', 'flight'])->get();
+        $bookings = \App\Models\Booking::all();
         return view('dashboard.bookings.index', compact('bookings'));
     }
 
@@ -20,8 +20,9 @@ class BookingController extends Controller
     {
                 $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
+        $returnFlights = \App\Models\ReturnFlight::all();
 
-        return view('dashboard.bookings.create', compact([],'users', 'flights'));
+        return view('dashboard.bookings.create', compact([],'users', 'flights', 'returnFlights'));
     }
 
     public function store(Request $request)
@@ -29,10 +30,13 @@ class BookingController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'flight_id' => 'required|exists:flights,id',
+            'return_flight_id' => 'nullable|exists:return_flights,id',
             'num_passengers' => 'required|numeric',
             'booking_date' => 'required|date',
             'total_price' => 'required|numeric',
-            'status' => 'required|in:Confirmed,Cancelled,Pending'
+            'status' => 'required|in:Confirmed,Cancelled,Pending',
+            'trip_type' => 'required|in:oneway,roundtrip,multicity',
+            'passenger_details' => 'required|string'
         ]);
         
         $booking = \App\Models\Booking::create($validated);
@@ -45,6 +49,7 @@ class BookingController extends Controller
         $booking = \App\Models\Booking::findOrFail($id);
                 $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
+        $returnFlights = \App\Models\ReturnFlight::all();
 
         return view('dashboard.bookings.show', compact('booking'));
     }
@@ -54,8 +59,9 @@ class BookingController extends Controller
         $booking = \App\Models\Booking::findOrFail($id);
                 $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
+        $returnFlights = \App\Models\ReturnFlight::all();
 
-        return view('dashboard.bookings.edit', compact('booking', 'users', 'flights'));
+        return view('dashboard.bookings.edit', compact('booking', 'users', 'flights', 'returnFlights'));
     }
 
     public function update(Request $request, $id)
@@ -64,10 +70,13 @@ class BookingController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'flight_id' => 'required|exists:flights,id',
+            'return_flight_id' => 'nullable|exists:return_flights,id',
             'num_passengers' => 'required|numeric',
             'booking_date' => 'required|date',
             'total_price' => 'required|numeric',
-            'status' => 'required|in:Confirmed,Cancelled,Pending'
+            'status' => 'required|in:Confirmed,Cancelled,Pending',
+            'trip_type' => 'required|in:oneway,roundtrip,multicity',
+            'passenger_details' => 'required|string'
         ]);
         
         $booking->update($validated);

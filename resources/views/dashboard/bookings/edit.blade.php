@@ -23,10 +23,21 @@
                 <select name="flight_id" class="w-full border border-gray-300 rounded p-2">
                     <option value="">@lang('site.select_flight_id')</option>
                     @foreach ($flights as $option)
-                        <option value="{{ $option->id }}" {{ $booking->flight_id == $option->id ? 'selected' : '' }}>{{ $option->departure_airport_id  }} - {{ $option->arrival_airport_id }}</option>
+                        <option value="{{ $option->id }}" {{ $booking->flight_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
                 </select>
                 @error('flight_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.return_flight_id')</label>
+                <select name="return_flight_id" class="w-full border border-gray-300 rounded p-2">
+                    <option value="">@lang('site.select_return_flight_id')</option>
+                    @foreach ($returnFlights as $option)
+                        <option value="{{ $option->id }}" {{ $booking->return_flight_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
+                    @endforeach
+                </select>
+                @error('return_flight_id')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>            <div class="mb-4">
@@ -57,6 +68,24 @@
 
                 </select>
                 @error('status')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.trip_type')</label>
+                <select name="trip_type" class="w-full border border-gray-300 rounded p-2">
+                    <option value="">@lang('site.select_trip_type')</option>
+                    <option value="oneway" {{ old('trip_type', $booking->trip_type) == 'oneway' ? 'selected' : '' }}>oneway</option>
+                    <option value="roundtrip" {{ old('trip_type', $booking->trip_type) == 'roundtrip' ? 'selected' : '' }}>roundtrip</option>
+                    <option value="multicity" {{ old('trip_type', $booking->trip_type) == 'multicity' ? 'selected' : '' }}>multicity</option>
+
+                </select>
+                @error('trip_type')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.passenger_details')</label>
+                <textarea name="passenger_details" class="w-full border border-gray-300 rounded p-2">{{ old('passenger_details', $booking->passenger_details) }}</textarea>
+                @error('passenger_details')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

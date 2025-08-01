@@ -11,9 +11,17 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('rentalcompany_id')->constrained('rentalcompanies')->onDelete('cascade');
-            $table->string('car_model')->nullable();
-            $table->string('car_make')->nullable();
-            $table->integer('car_year');
+            $table->string('name');
+            $table->integer('year');
+            $table->enum('type', ['economy', 'compact', 'sedan', 'suv', 'luxury', 'van', 'convertible']);
+            $table->enum('transmission', ['automatic', 'manual']);
+            $table->enum('fuel_type', ['petrol', 'diesel', 'hybrid', 'electric']);
+            $table->integer('price');
+            $table->string('img');
+            $table->integer('seats');
+            $table->integer('luggage_capacity');
+            $table->json('features')->nullable();
+            $table->integer('rating')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

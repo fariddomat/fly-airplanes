@@ -10,11 +10,16 @@ class Flight extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['departure_airport_id', 'arrival_airport_id', 'departure_time', 'arrival_time', 'flight_number', 'price', 'available_seats', 'class'];
+    protected $fillable = ['airline_id', 'departure_airport_id', 'arrival_airport_id', 'departure_time', 'arrival_time', 'flight_number', 'price', 'available_seats', 'class', 'duration',
+        'stops',
+        'amenities',];
+
+        // Store amenities as a JSON array in the flights table (e.g., ["free_baggage", "meal", "wifi"]) to support the front-end’s display of amenities.
 
     public static function rules()
     {
         return [
+            'airline_id' => 'required|exists:airlines,id',
             'departure_airport_id' => 'required|exists:airports,id',
             'arrival_airport_id' => 'required|exists:airports,id',
             'departure_time' => 'required|date',
@@ -22,11 +27,19 @@ class Flight extends Model
             'flight_number' => 'required|string|max:255',
             'price' => 'required|numeric',
             'available_seats' => 'required|numeric',
-            'class' => 'required|in:Economy,Business,First'
+            'class' => 'required|in:Economy,Business,First',
+            'duration' => 'required|string|max:255',
+            'stops' => 'required|in:direct,one-stop,multi-stop',
+            'amenities' => 'nullable|array',
         ];
     }
 
     protected $searchable = ['flight_number'];
+
+    public function airline()
+    {
+        return $this->belongsTo(Airline::class, 'airline_id');
+    }
     public function DepartureAirport()
     {
         return $this->belongsTo(\App\Models\Airport::class, 'departure_airport_id');

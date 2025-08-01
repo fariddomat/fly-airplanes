@@ -7,20 +7,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
 {
-    
+
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'flight_id', 'num_passengers', 'booking_date', 'total_price', 'status'];
+    protected $fillable = [
+        'user_id',
+        'flight_id',
+        'return_flight_id',
+        'num_passengers',
+        'booking_date',
+        'total_price',
+        'status',
+        'trip_type',
+        'passenger_details',
+    ];
 
     public static function rules()
     {
         return [
             'user_id' => 'required|exists:users,id',
             'flight_id' => 'required|exists:flights,id',
-            'num_passengers' => 'required|numeric',
+            'return_flight_id' => 'nullable|exists:flights,id',
+            'num_passengers' => 'required|integer|min:1|max:9',
             'booking_date' => 'required|date',
-            'total_price' => 'required|numeric',
-            'status' => 'required|in:Confirmed,Cancelled,Pending'
+            'total_price' => 'required|numeric|min:0',
+            'status' => 'required|in:Confirmed,Cancelled,Pending',
+            'trip_type' => 'required|in:oneway,roundtrip,multicity',
+            'passenger_details' => 'nullable|array',
         ];
     }
 
@@ -32,5 +45,10 @@ class Booking extends Model
     public function flight()
     {
         return $this->belongsTo(\App\Models\Flight::class, 'flight_id');
+    }
+
+    public function returnFlight()
+    {
+        return $this->belongsTo(Flight::class, 'return_flight_id');
     }
 }

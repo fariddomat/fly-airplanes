@@ -17,6 +17,9 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.email')</label>
                 <p class="text-gray-900">{{ $rentalcompany->email ?? '—' }}</p>
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.logo')</label>
+                <p class="text-gray-900">{{ $rentalcompany->logo ?? '—' }}</p>
             </div>
             <a href="{{ route('dashboard.rentalcompanies.index') }}" class="mt-4 inline-block px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-700">
                 @lang('site.back')

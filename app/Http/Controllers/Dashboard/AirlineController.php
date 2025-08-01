@@ -25,10 +25,14 @@ class AirlineController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'airline_name' => 'required|string|max:255',
-            'airline_code' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
+            'img' => 'required|image|max:2048'
         ]);
-        
+                if ($request->hasFile('img')) {
+            $validated['img'] = $request->file('img')->store('public/imgs');
+        }
+
         $airline = \App\Models\Airline::create($validated);
         
         return redirect()->route('dashboard.airlines.index')->with('success', 'Airline created successfully.');
@@ -52,10 +56,15 @@ class AirlineController extends Controller
     {
         $airline = \App\Models\Airline::findOrFail($id);
         $validated = $request->validate([
-            'airline_name' => 'required|string|max:255',
-            'airline_code' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
+            'img' => 'required|image|max:2048'
         ]);
-        
+                if ($request->hasFile('img')) {
+            $validated['img'] = $request->file('img')->store('public/imgs');
+            if ($airline->img) Storage::delete($airline->img);
+        }
+
         $airline->update($validated);
         
         return redirect()->route('dashboard.airlines.index')->with('success', 'Airline updated successfully.');

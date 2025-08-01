@@ -8,15 +8,22 @@
             @csrf
             @method('PUT')
                         <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.airline_name')</label>
-                <input type="text" name="airline_name" value="{{ old('airline_name', $airline->airline_name) }}" class="w-full border border-gray-300 rounded p-2">
-                @error('airline_name')
+                <label class="block text-sm font-medium text-gray-700">@lang('site.name')</label>
+                <input type="text" name="name" value="{{ old('name', $airline->name) }}" class="w-full border border-gray-300 rounded p-2">
+                @error('name')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">@lang('site.airline_code')</label>
-                <input type="text" name="airline_code" value="{{ old('airline_code', $airline->airline_code) }}" class="w-full border border-gray-300 rounded p-2">
-                @error('airline_code')
+                <label class="block text-sm font-medium text-gray-700">@lang('site.code')</label>
+                <input type="text" name="code" value="{{ old('code', $airline->code) }}" class="w-full border border-gray-300 rounded p-2">
+                @error('code')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.img')</label>
+                <input type="file" name="img" accept="image/*" class="w-full border border-gray-300 rounded p-2">                @isset($airline->img)
+                    <img src="{{ Storage::url($airline->img) }}" alt="img" class="mt-2 w-32 h-32 rounded">
+                @endisset                @error('img')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('airlines', function (Blueprint $table) {
             $table->id();
-            $table->string('airline_name');
-            $table->string('airline_code')->unique();
+            $table->string('name');
+            $table->string('code');
+            $table->string('img');
             $table->softDeletes();
             $table->timestamps();
         });
