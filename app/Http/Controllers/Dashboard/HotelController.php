@@ -25,13 +25,16 @@ class HotelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'star_rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'price_per_night' => 'required|numeric',
-            'rating' => 'required|numeric',
+            'price_per_night' => 'nullable|numeric',
+            'rating' => 'nullable|numeric',
             'amenities' => 'nullable|json',
             'image' => 'nullable|image|max:2048'
         ]);
@@ -62,13 +65,16 @@ class HotelController extends Controller
     {
         $hotel = \App\Models\Hotel::findOrFail($id);
         $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'email' => 'nullable|string|max:255',
             'star_rating' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'price_per_night' => 'required|numeric',
-            'rating' => 'required|numeric',
+            'price_per_night' => 'nullable|numeric',
+            'rating' => 'nullable|numeric',
             'amenities' => 'nullable|json',
             'image' => 'nullable|image|max:2048'
         ]);

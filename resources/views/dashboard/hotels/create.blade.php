@@ -7,6 +7,24 @@
         <form action="{{ route('dashboard.hotels.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md" enctype="multipart/form-data">
             @csrf
                         <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.name')</label>
+                <input type="text" name="name" value="{{ old('name') }}" class="w-full border border-gray-300 rounded p-2">
+                @error('name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.address')</label>
+                <textarea name="address" class="w-full border border-gray-300 rounded p-2">{{ old('address') }}</textarea>
+                @error('address')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">@lang('site.city')</label>
+                <input type="text" name="city" value="{{ old('city') }}" class="w-full border border-gray-300 rounded p-2">
+                @error('city')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.country')</label>
                 <input type="text" name="country" value="{{ old('country') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('country')
