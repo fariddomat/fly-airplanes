@@ -291,4 +291,17 @@ return [
     'additional_info' => 'تواصل معنا لمزيد من التفاصيل',
     'back'=>'رجوع',
 
+
+     'travel' => 'السفر',
+    'airports' => 'المطارات',
+    'airlines' => 'شركات الطيران',
+    'flights' => 'الرحلات',
+    'bookings' => 'الحجوزات',
+    'car_rental' => 'تأجير السيارات',
+    'rental_companies' => 'شركات التأجير',
+    'cars' => 'السيارات',
+    'car_rentals' => 'حجوزات السيارات',
+    'hotels' => 'الفنادق',
+    'hotel_bookings' => 'حجوزات الفنادق',
+    'adds' => 'الإعلانات',
 ];
