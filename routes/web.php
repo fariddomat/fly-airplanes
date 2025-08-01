@@ -29,6 +29,22 @@ Route::get('/clear', function () {
 });
 Route::get('/', [SiteController::class, 'home'])->name('home');
 
+Route::get('/flights/search', [SiteController::class, 'showFlightSearch'])->name('flights.search');
+Route::post('/flights/search', [SiteController::class, 'searchFlights'])->name('flights.search');
+Route::get('/flights/book/{id}', function ($id) {
+    return redirect()->route('flights.search'); // Placeholder for booking route
+})->name('flights.book');
+
+
+Route::get('/cars/search',  [SiteController::class, 'showCarSearch'])->name('cars.search');
+Route::post('/cars/search',  [SiteController::class, 'searchCars'])->name('cars.search');
+
+Route::post('/cars/book', [SiteController::class, 'bookCar'])->middleware('auth')->name('cars.book');
+
+// Hotel Routes
+Route::get('/hotels/search', [SiteController::class, 'showHotelSearch'])->name('hotels.search');
+Route::post('/hotels/search', [SiteController::class, 'searchHotels'])->name('hotels.search');
+Route::post('/hotels/book', [SiteController::class, 'bookHotel'])->middleware('auth')->name('hotels.book');
 
 Route::middleware(['web'])->group(function () {
     Route::view('dashboard', 'dashboard')

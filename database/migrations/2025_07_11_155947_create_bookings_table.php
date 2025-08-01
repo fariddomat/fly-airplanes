@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('flight_id')->constrained('flights')->onDelete('cascade');
-            $table->foreignId('return_flight_id')->constrained('return_flights')->onDelete('cascade');
+            $table->foreignId('return_flight_id')->constrained('flights')->onDelete('cascade');
             $table->integer('num_passengers');
             $table->datetime('booking_date');
             $table->integer('total_price');

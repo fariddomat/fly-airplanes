@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('airport_name');
             $table->string('city');
             $table->string('country');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
