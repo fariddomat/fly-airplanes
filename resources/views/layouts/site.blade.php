@@ -78,7 +78,6 @@
                         <li><a href="#" class="footer-link">حجز الطيران</a></li>
                         <li><a href="#" class="footer-link">حجز الفنادق</a></li>
                         <li><a href="#" class="footer-link">تأجير السيارات</a></li>
-                        <li><a href="#" class="footer-link">الرحلات السياحية</a></li>
                     </ul>
                 </div>
 

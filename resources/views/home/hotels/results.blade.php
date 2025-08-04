@@ -198,7 +198,7 @@
                                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                                                 <circle cx="12" cy="10" r="3"/>
                                             </svg>
-                                            {{ $hotel->address }}, {{ $hotel->city }}
+                                            {!! $hotel->address !!}, {{ $hotel->city }}
                                         </div>
                                         <div class="car-rating">
                                             <div class="stars">
@@ -244,7 +244,7 @@
                                             <div class="best-value">أفضل قيمة!</div>
                                         @endif
                                     </div>
-                                    <button class="book-btn {{ $hotel->type ?? 'hotel' }}" onclick="openHotelBookingModal('{{ $hotel->id }}', '{{ $hotel->name }}', '{{ $hotel->address }}', '{{ $hotel->price_per_night }}', '{{ $hotel->city }}', '{{ $searchParams['checkin'] }}', '{{ $searchParams['checkout'] }}', '{{ $hotel->room_type ?? 'غرفة قياسية' }}', '{{ str_repeat('⭐', $hotel->star_rating) }}', '{{ $hotel->rating ?? 4.0 }}')">
+                                    <button class="book-btn {{ $hotel->type ?? 'hotel' }}" onclick="openHotelBookingModal('{{ $hotel->id }}', '{{ $hotel->name }}', '{!! $hotel->address !!}', '{{ $hotel->price_per_night }}', '{{ $hotel->city }}', '{{ $searchParams['checkin'] }}', '{{ $searchParams['checkout'] }}', '{{ $hotel->room_type ?? 'غرفة قياسية' }}', '{{ str_repeat('⭐', $hotel->star_rating) }}', '{{ $hotel->rating ?? 4.0 }}')">
                                         <span>احجز الآن</span>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -356,6 +356,13 @@
             padding: 40px 0;
             position: relative;
         }
+        .hotel-search-hero {
+  padding: 120px 0 60px;
+  background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
+  position: relative;
+  overflow: hidden;
+}
+
         .hero-particles {
             position: absolute;
             top: 0;

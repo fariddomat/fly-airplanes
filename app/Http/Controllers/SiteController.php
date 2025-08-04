@@ -271,10 +271,8 @@ class SiteController extends Controller
             ]),
         ]);
 
-        // TODO: Implement payment processing (e.g., Stripe) here
-        // For now, assume booking is pending until payment is confirmed
 
-        return redirect()->route('flights.confirmation', $booking->id)->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
+        return redirect()->route('flights.search')->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
     }
 
     public function showCarSearch()
@@ -457,7 +455,7 @@ class SiteController extends Controller
         // TODO: Implement payment processing (e.g., Stripe) here
         // For now, assume booking is pending until payment is confirmed
 
-        return redirect()->route('cars.confirmation', $carRental->id)->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
+        return redirect()->route('cars.search')->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
     }
 
 
@@ -609,7 +607,7 @@ class SiteController extends Controller
         // TODO: Implement payment processing (e.g., Stripe) here
         // For now, assume booking is pending until payment is confirmed
 
-        return redirect()->route('hotels.confirmation', $hotelBooking->id)->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
+        return redirect()->route('hotels.search')->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
     }
 
 }

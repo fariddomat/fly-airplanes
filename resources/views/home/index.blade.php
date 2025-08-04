@@ -312,7 +312,7 @@
                 </div>
 
                 <div class="about-image">
-                    <img src="{{ asset('images/team.jpg') }}" alt="فريق العمل" class="team-image">
+                    <img src="{{ asset('images/phtoto.png') }}" alt="فريق العمل" class="team-image">
                     <div class="experience-badge">
                         <div class="experience-number">10+</div>
                         <div class="experience-text">سنوات خبرة</div>

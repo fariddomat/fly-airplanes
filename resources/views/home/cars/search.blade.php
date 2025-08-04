@@ -8,6 +8,12 @@
     <section class="car-search-hero">
         <div class="hero-particles"></div>
         <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <span>{{ session('success') }}</span>
+                    <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+            @endif
             <div class="search-header">
                 <div class="breadcrumb">
                     <a href="{{ route('home') }}">الرئيسية</a>
@@ -303,7 +309,7 @@
                     </div>
                 </form>
             </div>
-            
+
         </div>
     </section>
 @endsection
@@ -328,6 +334,59 @@
             radio.addEventListener('change', function() {
                 document.getElementById('dropoffLocationGroup').style.display = this.value === 'different-location' ? 'block' : 'none';
             });
+        });
+    </script>
+@endsection
+
+
+@section('styles')
+    <style>
+        /* Existing styles from the original file */
+        /* ... */
+
+        /* Success Alert Styles */
+        .alert {
+            position: relative;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .alert-success {
+            background: linear-gradient(135deg, #dc267f, #ff6b35);
+            color: #fff;
+        }
+        .close-alert {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        .close-alert:hover {
+            color: #f0f0f0;
+        }
+    </style>
+@endsection
+
+@section('scripts')
+    <script>
+        // Existing scripts from the original file
+        // ...
+
+        // Automatically hide success message after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alert = document.querySelector('.alert-success');
+            if (alert) {
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 5000);
+            }
         });
     </script>
 @endsection
