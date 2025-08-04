@@ -12,7 +12,7 @@ class CarController extends Controller
 
     public function index()
     {
-        $cars = \App\Models\Car::all();
+        $cars = \App\Models\Car::with(['rentalcompany'])->get();
         return view('dashboard.cars.index', compact('cars'));
     }
 
@@ -44,7 +44,7 @@ class CarController extends Controller
         }
 
         $car = \App\Models\Car::create($validated);
-        
+
         return redirect()->route('dashboard.cars.index')->with('success', 'Car created successfully.');
     }
 
@@ -87,7 +87,7 @@ class CarController extends Controller
         }
 
         $car->update($validated);
-        
+
         return redirect()->route('dashboard.cars.index')->with('success', 'Car updated successfully.');
     }
 

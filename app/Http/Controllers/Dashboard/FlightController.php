@@ -12,7 +12,7 @@ class FlightController extends Controller
 
     public function index()
     {
-        $flights = \App\Models\Flight::all();
+        $flights = \App\Models\Flight::with(['airline', 'departureAirport', 'arrivalAirport'])->get();
         return view('dashboard.flights.index', compact('flights'));
     }
 

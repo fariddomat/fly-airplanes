@@ -24,12 +24,12 @@
 
                 <!-- Desktop Menu -->
                 <div class="nav-menu">
-                    <a href="#home" class="nav-link">الرئيسية</a>
-                    <a href="#booking" class="nav-link">الحجوزات</a>
-                    <a href="#services" class="nav-link">خدماتنا</a>
+                    <a href="{{ route('home') }}" class="nav-link">الرئيسية</a>
+                    <a href="{{ route('home') }}#booking" class="nav-link">الحجوزات</a>
+                    <a href="{{ route('home') }}#services" class="nav-link">خدماتنا</a>
                     <a href="#about" class="nav-link">من نحن</a>
                     <a href="#contact" class="nav-link">اتصل بنا</a>
-                    <button class="login-btn">تسجيل الدخول</button>
+                    <a href="{{ route('login') }}" class="login-btn">تسجيل الدخول</a>
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -43,12 +43,12 @@
 
                     <!-- Mobile Menu -->
                     <div class="mobile-menu">
-                        <a href="#home" class="mobile-nav-link">الرئيسية</a>
-                        <a href="#booking" class="mobile-nav-link">الحجوزات</a>
-                        <a href="#services" class="mobile-nav-link">خدماتنا</a>
+                        <a href="{{ route('home') }}" class="mobile-nav-link">الرئيسية</a>
+                        <a href="{{ route('home') }}#booking" class="mobile-nav-link">الحجوزات</a>
+                        <a href="{{ route('home') }}#services" class="mobile-nav-link">خدماتنا</a>
                         <a href="#about" class="mobile-nav-link">من نحن</a>
                         <a href="#contact" class="mobile-nav-link">اتصل بنا</a>
-                        <button class="mobile-login-btn">تسجيل الدخول</button>
+                        <a href="{{ route('login') }}" class="mobile-login-btn">تسجيل الدخول</a>
                     </div>
                 </div>
             </div>

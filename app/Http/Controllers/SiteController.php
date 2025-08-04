@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Mail;
 
 use App\Models\Airport;
+use App\Models\Booking;
 use App\Models\Carrental;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -221,6 +222,59 @@ class SiteController extends Controller
             'airlines' => $airlines,
             'flightCounts' => $flightCounts,
         ]);
+    }
+
+    public function bookFlight(Request $request)
+    {
+        $request->validate([
+            'flight_id' => 'required|exists:flights,id',
+            'return_flight_id' => 'nullable|exists:flights,id',
+            'flight_name' => 'required|string',
+            'total_price' => 'required|numeric|min:0',
+            'from' => 'required|string',
+            'to' => 'required|string',
+            'depart_date' => 'required|date|after_or_equal:today',
+            'return_date' => 'nullable|date|after_or_equal:depart_date',
+            'passengers' => 'required|integer|min:1',
+            'class' => 'required|in:Economy,Business,First',
+            'trip_type' => 'required|in:oneway,roundtrip,multicity',
+            'payment_method' => 'required|in:visa,mastercard,mada,cash',
+            'card_number' => 'required_if:payment_method,visa,mastercard,mada|string|nullable',
+            'expiry' => 'required_if:payment_method,visa,mastercard,mada|string|nullable',
+            'cvv' => 'required_if:payment_method,visa,mastercard,mada|string|nullable',
+            'card_name' => 'required_if:payment_method,visa,mastercard,mada|string|nullable',
+        ]);
+
+        $flight = Flight::findOrFail($request->flight_id);
+        $totalPrice = $flight->price * $request->passengers;
+
+        // Handle return flight for roundtrip
+        if ($request->trip_type === 'roundtrip' && $request->return_flight_id) {
+            $returnFlight = Flight::findOrFail($request->return_flight_id);
+            $totalPrice += $returnFlight->price * $request->passengers;
+        }
+
+        $booking = Booking::create([
+            'user_id' => Auth::id(),
+            'flight_id' => $request->flight_id,
+            'return_flight_id' => $request->return_flight_id,
+            'num_passengers' => $request->passengers,
+            'booking_date' => now(),
+            'total_price' => $totalPrice,
+            'status' => 'Pending',
+            'trip_type' => $request->trip_type,
+            'passenger_details' => json_encode([
+                'name' => $request->card_name ?? Auth::user()->name,
+                'email' => Auth::user()->email,
+                'payment_method' => $request->payment_method,
+                'card_number' => $request->payment_method !== 'cash' ? substr($request->card_number, -4) : null,
+            ]),
+        ]);
+
+        // TODO: Implement payment processing (e.g., Stripe) here
+        // For now, assume booking is pending until payment is confirmed
+
+        return redirect()->route('flights.confirmation', $booking->id)->with('success', 'تم إنشاء الحجز بنجاح، في انتظار تأكيد الدفع.');
     }
 
     public function showCarSearch()

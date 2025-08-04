@@ -12,7 +12,7 @@ class CarrentalController extends Controller
 
     public function index()
     {
-        $carrentals = \App\Models\Carrental::all();
+        $carrentals = \App\Models\Carrental::with(['user', 'car'])->get();
         return view('dashboard.carrentals.index', compact('carrentals'));
     }
 
@@ -43,9 +43,9 @@ class CarrentalController extends Controller
             'extras' => 'nullable|json',
             'driver_details' => 'nullable|json'
         ]);
-        
+
         $carrental = \App\Models\Carrental::create($validated);
-        
+
         return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental created successfully.');
     }
 
@@ -87,9 +87,9 @@ class CarrentalController extends Controller
             'extras' => 'nullable|json',
             'driver_details' => 'nullable|json'
         ]);
-        
+
         $carrental->update($validated);
-        
+
         return redirect()->route('dashboard.carrentals.index')->with('success', 'Carrental updated successfully.');
     }
 

@@ -5,7 +5,7 @@
 
         <div class="overflow-x-auto mt-4">
             <x-autocrud::table
-                :columns="['id', 'user_id', 'car_id', 'pickup_location', 'return_location', 'pickup_date', 'pickup_time', 'return_date', 'dropoff_time', 'total_price', 'booking_date', 'status', 'rental_type', 'driver_age', 'extras', 'driver_details']"
+                :columns="['id', 'user.name', 'car.name', 'pickup_location',]"
                 :data="$carrentals"
                 routePrefix="dashboard.carrentals"
                 :show="true"

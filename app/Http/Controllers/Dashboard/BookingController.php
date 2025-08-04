@@ -12,7 +12,7 @@ class BookingController extends Controller
 
     public function index()
     {
-        $bookings = \App\Models\Booking::all();
+        $bookings = \App\Models\Booking::with(['user', 'flight', 'returnFlight'])->get();
         return view('dashboard.bookings.index', compact('bookings'));
     }
 
@@ -38,9 +38,9 @@ class BookingController extends Controller
             'trip_type' => 'required|in:oneway,roundtrip,multicity',
             'passenger_details' => 'required|string'
         ]);
-        
+
         $booking = \App\Models\Booking::create($validated);
-        
+
         return redirect()->route('dashboard.bookings.index')->with('success', 'Booking created successfully.');
     }
 
@@ -78,9 +78,9 @@ class BookingController extends Controller
             'trip_type' => 'required|in:oneway,roundtrip,multicity',
             'passenger_details' => 'required|string'
         ]);
-        
+
         $booking->update($validated);
-        
+
         return redirect()->route('dashboard.bookings.index')->with('success', 'Booking updated successfully.');
     }
 

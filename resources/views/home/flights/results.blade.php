@@ -153,7 +153,7 @@
                         </div>
                         <div class="sort-options">
                             <label for="sortBy">ترتيب حسب:</label>
-                            <select id="sortBy" name="sortBy" onchange="this.form.submit()">
+                            <select id="sortBy" name="sortBy" onchange="updateSort(this.value)">
                                 <option value="price" {{ old('sortBy', $searchParams['sortBy'] ?? '') == 'price' ? 'selected' : '' }}>السعر (الأقل أولاً)</option>
                                 <option value="duration" {{ old('sortBy', $searchParams['sortBy'] ?? '') == 'duration' ? 'selected' : '' }}>مدة الرحلة</option>
                                 <option value="departure" {{ old('sortBy', $searchParams['sortBy'] ?? '') == 'departure' ? 'selected' : '' }}>وقت المغادرة</option>
@@ -191,6 +191,7 @@
                     <div class="flights-list" id="flightsList">
                         @forelse($flights as $flight)
                             <div class="flight-card" data-price="{{ $flight->price }}"
+                                 data-flight-id="{{ $flight->id }}"
                                  data-airline="{{ $flight->airline->id }}"
                                  data-departure="{{ \Carbon\Carbon::parse($flight->departure_time)->hour >= 6 && \Carbon\Carbon::parse($flight->departure_time)->hour < 12 ? 'morning' : (\Carbon\Carbon::parse($flight->departure_time)->hour < 18 ? 'afternoon' : 'evening') }}">
                                 <div class="flight-header">
@@ -250,12 +251,12 @@
                                             <div class="lowest-price">أقل سعر!</div>
                                         @endif
                                     </div>
-                                    <a href="{{ route('flights.book', $flight->id) }}" class="book-btn {{ strtolower($flight->airline->code) }}">
+                                    <button class="book-btn" onclick="selectFlight('{{ $flight->id }}', '{{ $flight->airline->name }} ({{ $flight->flight_number }})', '{{ $flight->price }}', '{{ $flight->price * $searchParams['passengers'] }}')">
                                         <span>احجز الآن</span>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M5 12h14M12 5l7 7-7 7"/>
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         @empty
@@ -275,6 +276,7 @@
                             <div class="flights-list">
                                 @foreach($returnFlights as $flight)
                                     <div class="flight-card" data-price="{{ $flight->price }}"
+                                         data-flight-id="{{ $flight->id }}"
                                          data-airline="{{ $flight->airline->id }}"
                                          data-departure="{{ \Carbon\Carbon::parse($flight->departure_time)->hour >= 6 && \Carbon\Carbon::parse($flight->departure_time)->hour < 12 ? 'morning' : (\Carbon\Carbon::parse($flight->departure_time)->hour < 18 ? 'afternoon' : 'evening') }}">
                                         <div class="flight-header">
@@ -334,12 +336,12 @@
                                                     <div class="lowest-price">أقل سعر!</div>
                                                 @endif
                                             </div>
-                                            <a href="{{ route('flights.book', $flight->id) }}" class="book-btn {{ strtolower($flight->airline->code) }}">
+                                            <button class="book-btn" onclick="selectFlight('{{ $flight->id }}', '{{ $flight->airline->name }} ({{ $flight->flight_number }})', '{{ $flight->price }}', '{{ $flight->price * $searchParams['passengers'] }}')">
                                                 <span>احجز الآن</span>
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                     <path d="M5 12h14M12 5l7 7-7 7"/>
                                                 </svg>
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 @endforeach
@@ -355,9 +357,618 @@
             </div>
         </div>
     </section>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="payment-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تأكيد الحجز ✈️</h3>
+                <button class="close-modal" onclick="closePaymentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="selected-flight-info">
+                    <h4 id="selected-flight-name"></h4>
+                    <div class="booking-details">
+                        <div class="detail">
+                            <span>السعر للراكب الواحد:</span>
+                            <span id="single-price"></span>
+                        </div>
+                        <div class="detail">
+                            <span>عدد الركاب:</span>
+                            <span>{{ $searchParams['passengers'] }} {{ $searchParams['passengers'] == 1 ? 'راكب' : 'ركاب' }}</span>
+                        </div>
+                        <div class="detail total">
+                            <span>المجموع:</span>
+                            <span id="total-price"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="payment-form" action="{{ route('flights.book') }}" method="POST">
+                    @csrf
+                    <input type="hidden" id="flight-id" name="flight_id">
+                    <input type="hidden" id="return-flight-id" name="return_flight_id">
+                    <input type="hidden" id="flight-name-input" name="flight_name">
+                    <input type="hidden" id="total-price-input" name="total_price">
+                    <input type="hidden" name="from" value="{{ $searchParams['from'] }}">
+                    <input type="hidden" name="to" value="{{ $searchParams['to'] }}">
+                    <input type="hidden" name="depart_date" value="{{ $searchParams['depart'] }}">
+                    <input type="hidden" name="return_date" value="{{ $searchParams['return'] ?? '' }}">
+                    <input type="hidden" name="passengers" value="{{ $searchParams['passengers'] }}">
+                    <input type="hidden" name="class" value="{{ $searchParams['class'] }}">
+                    <input type="hidden" name="trip_type" value="{{ $searchParams['tripType'] }}">
+
+                    <div class="form-group">
+                        <label for="payment-method">طريقة الدفع:</label>
+                        <select id="payment-method" name="payment_method" required>
+                            <option value="">اختر طريقة الدفع</option>
+                            <option value="visa">بطاقة Visa</option>
+                            <option value="mastercard">بطاقة Mastercard</option>
+                            <option value="mada">بطاقة مدى</option>
+                            <option value="cash">الدفع عند الاستلام</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="card-details" style="display: none;">
+                        <label for="card-number">رقم البطاقة:</label>
+                        <input type="text" id="card-number" name="card_number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+
+                        <div class="card-row">
+                            <div class="form-group">
+                                <label for="expiry">تاريخ الانتهاء:</label>
+                                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV:</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="card-name">اسم حامل البطاقة:</label>
+                            <fulfilment_type>text</fulfilment_type>
+                            <input type="text" id="card-name" name="card_name" placeholder="الاسم كما يظهر على البطاقة">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closePaymentModal()">إلغاء</button>
+                        <button type="submit" class="confirm-btn">تأكيد الحجز</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
-
+@section('styles')
+    <style>
+        .results-header {
+            background: #f8f9fa;
+            padding: 40px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .breadcrumb {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .breadcrumb a, .breadcrumb .current {
+            color: #333;
+            text-decoration: none;
+        }
+        .breadcrumb .separator {
+            margin: 0 10px;
+        }
+        .search-summary {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .route-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .route-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .route-arrow {
+            width: 24px;
+            height: 24px;
+        }
+        .trip-details {
+            display: flex;
+            gap: 20px;
+            font-size: 1rem;
+            color: #666;
+        }
+        .modify-search-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .modify-search-btn:hover {
+            background: #0056b3;
+        }
+        .modify-search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        .results-content {
+            padding: 40px 0;
+        }
+        .results-layout {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+        }
+        .filters-sidebar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .filters-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .clear-filters {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .price-range {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .price-inputs input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .price-separator {
+            color: #666;
+        }
+        .price-slider {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .slider {
+            width: 100%;
+        }
+        .price-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .filter-options, .time-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .filter-option, .time-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkmark, .radio-mark {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .radio-mark {
+            border-radius: 50%;
+        }
+        .airline-info, .time-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .airline-name, .time-label {
+            font-weight: 500;
+        }
+        .flight-count, .time-range {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .time-icon {
+            font-size: 1.2rem;
+        }
+        .results-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .results-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .results-count {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sort-options select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .flights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .flight-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+        .flight-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .airline-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        .airline-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .flight-number {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .flight-badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .flight-badge.direct {
+            background: #28a745;
+            color: #fff;
+        }
+        .flight-badge.one-stop {
+            background: #ffc107;
+            color: #000;
+        }
+        .flight-badge.multi-stop {
+            background: #dc3545;
+            color: #fff;
+        }
+        .flight-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .flight-route {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+        }
+        .departure, .arrival {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .time {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .airport {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .city {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .flight-path {
+            text-align: center;
+        }
+        .duration {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .path-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .line {
+            width: 100%;
+            height: 2px;
+            background: #ddd;
+        }
+        .plane-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .stops {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .flight-amenities {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .amenity {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        .amenity svg {
+            width: 16px;
+            height: 16px;
+        }
+        .flight-pricing {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .price-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .price-note {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .lowest-price {
+            background: #28a745;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .book-btn {
+            background: linear-gradient(135deg, #dc267f, #ff6b35);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 38, 127, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 127, 0.4);
+            background: linear-gradient(135deg, #c21e6b, #e55e2e);
+        }
+        .book-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        .no-results {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 20px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .flight-results {
+            margin-top: 40px;
+        }
+        /* Modal Styles */
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: right;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2c3e50;
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .selected-flight-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .booking-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .detail {
+            display: flex;
+            justify-content: space-between;
+        }
+        .detail.total {
+            font-weight: 700;
+        }
+        .payment-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .payment-form select, .payment-form input {
+            padding: 12px;
+            border: 1px solid rgba(220, 38, 127, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .payment-form select:focus, .payment-form input:focus {
+            outline: none;
+            border-color: #dc267f;
+            box-shadow: 0 0 8px rgba(220, 38, 127, 0.3);
+        }
+        .card-row {
+            display: flex;
+            gap: 20px;
+        }
+        .card-row .form-group {
+            flex: 1;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        .cancel-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            background: #dc3545;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .confirm-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #dc267f, #ff6b35);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 38, 127, 0.3);
+        }
+        .confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 127, 0.4);
+            background: linear-gradient(135deg, #c21e6b, #e55e2e);
+        }
+        @media (max-width: 768px) {
+            .results-layout {
+                grid-template-columns: 1fr;
+            }
+            .flight-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .flight-pricing {
+                align-items: center;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+    </style>
+@endsection
 
 @section('scripts')
     <script>
@@ -369,6 +980,32 @@
             document.getElementById('filterForm').submit();
         }
 
+        function updateSort(value) {
+            document.getElementById('sortByHidden').value = value;
+            document.getElementById('minPriceHidden').value = document.getElementById('minPrice').value;
+            document.getElementById('maxPriceHidden').value = document.getElementById('maxPrice').value;
+            document.getElementById('filterForm').submit();
+        }
+
+        function selectFlight(flightId, flightName, singlePrice, totalPrice) {
+            document.getElementById('selected-flight-name').textContent = flightName;
+            document.getElementById('single-price').textContent = singlePrice + ' ريال';
+            document.getElementById('total-price').textContent = totalPrice + ' ريال';
+            document.getElementById('flight-id').value = flightId;
+            document.getElementById('flight-name-input').value = flightName;
+            document.getElementById('total-price-input').value = totalPrice;
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            document.querySelector('.payment-form').reset();
+        }
+
+        document.getElementById('payment-method').addEventListener('change', function() {
+            document.getElementById('card-details').style.display = this.value === 'cash' ? 'none' : 'block';
+        });
+
         document.getElementById('minPrice').addEventListener('change', function() {
             document.getElementById('minPriceHidden').value = this.value;
             document.getElementById('filterForm').submit();
@@ -379,20 +1016,17 @@
             document.getElementById('filterForm').submit();
         });
 
-        document.getElementById('priceRange').addEventListener('input', function() {
-            document.getElementById('maxPrice').value = this.value;
-            document.getElementById('maxPriceHidden').value = this.value;
-        });
-
         document.querySelectorAll('.filter-option input, .time-option input').forEach(input => {
             input.addEventListener('change', function() {
                 document.getElementById('filterForm').submit();
             });
         });
 
-        document.getElementById('sortBy').addEventListener('change', function() {
-            document.getElementById('sortByHidden').value = this.value;
-            document.getElementById('filterForm').submit();
-        });
+        window.onclick = function(event) {
+            const modal = document.getElementById('payment-modal');
+            if (event.target === modal) {
+                closePaymentModal();
+            }
+        };
     </script>
 @endsection

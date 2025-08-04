@@ -12,7 +12,7 @@ class HotelbookingController extends Controller
 
     public function index()
     {
-        $hotelbookings = \App\Models\Hotelbooking::all();
+        $hotelbookings = \App\Models\Hotelbooking::with(['user', 'hotel'])->get();
         return view('dashboard.hotelbookings.index', compact('hotelbookings'));
     }
 
@@ -36,9 +36,9 @@ class HotelbookingController extends Controller
             'booking_date' => 'required|date',
             'status' => 'required|in:Confirmed,Cancelled,Pending'
         ]);
-        
+
         $hotelbooking = \App\Models\Hotelbooking::create($validated);
-        
+
         return redirect()->route('dashboard.hotelbookings.index')->with('success', 'Hotelbooking created successfully.');
     }
 
@@ -73,9 +73,9 @@ class HotelbookingController extends Controller
             'booking_date' => 'required|date',
             'status' => 'required|in:Confirmed,Cancelled,Pending'
         ]);
-        
+
         $hotelbooking->update($validated);
-        
+
         return redirect()->route('dashboard.hotelbookings.index')->with('success', 'Hotelbooking updated successfully.');
     }
 
