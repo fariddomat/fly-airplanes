@@ -24,10 +24,6 @@ return [
         'user' => [
             'profile' => 'r,u',
         ],
-        'blogger' => [
-            'blogs' => 'c,r,u,d',
-            'blogCategories' => 'c,r,u,d',
-        ],
     ],
 
     'permissions_map' => [

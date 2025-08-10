@@ -68,114 +68,131 @@
     <div class="flex h-screen  overflow-x-hidden" x-data="{ open: false }">
         <!-- Sidebar Overlay (Mobile) -->
         <div class="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden" x-show="open" @click="open = false"></div>
-<aside
-    class="bg-gray-900 text-white p-5 w-64 md:w-64 md:fixed md:top-0 md:left-0 md:h-screen transition-all duration-300 ease-in-out z-50 overflow-y-auto"
-    :class="open ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'">
-    <h2 class="text-xl font-bold mb-4">@lang('site.control_panel')</h2>
+        <aside
+            class="bg-gray-900 text-white p-5 w-64 md:w-64 md:fixed md:top-0 md:left-0 md:h-screen transition-all duration-300 ease-in-out z-50 overflow-y-auto"
+            :class="open ? 'translate-x-0' : '-translate-x-64 md:translate-x-0'">
+            <h2 class="text-xl font-bold mb-4">@lang('site.control_panel')</h2>
 
-    <nav class="mt-5 space-y-3">
-        <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-            @lang('site.home') <i class="fas fa-home"></i>
-        </x-responsive-nav-link>
+            <nav class="mt-5 space-y-3">
+                <!-- Dashboard -->
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    @lang('site.home') <i class="fas fa-home"></i>
+                </x-responsive-nav-link>
 
-        <!-- Users (Superadministrator Only) -->
-        @if (auth()->user()->hasRole('superadministrator'))
-            <x-responsive-nav-link href="{{ route('dashboard.users.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.users.')">
-                @lang('site.users') <i class="fas fa-users"></i>
-            </x-responsive-nav-link>
-        @endif
+                <!-- Users (Superadministrator Only) -->
+                @role('superadministrator')
+                    <x-responsive-nav-link href="{{ route('dashboard.users.index') }}" :active="request()->routeIs('dashboard.users.*')">
+                        @lang('site.users') <i class="fas fa-users"></i>
+                    </x-responsive-nav-link>
+                @endrole
 
-        <!-- Travel Group -->
-        @php
-            $isTravelActive = Str::startsWith(request()->route()->getName(), [
-                'dashboard.airports.',
-                'dashboard.airlines.',
-                'dashboard.flights.',
-                'dashboard.bookings.',
-            ]);
-        @endphp
-        <details class="group" {{ $isTravelActive ? 'open' : '' }}>
-            <summary
-                class="{{ $isTravelActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
-                @lang('site.travel') <i class="fas fa-plane"></i>
-            </summary>
-            <div class="pl-6 space-y-2 py-2">
-                <x-responsive-nav-link href="{{ route('dashboard.airports.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.airports.')">
-                    @lang('site.airports') <i class="fas fa-plane-departure"></i>
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.airlines.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.airlines.')">
-                    @lang('site.airlines') <i class="fas fa-plane"></i>
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.flights.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.flights.')">
-                    @lang('site.flights') <i class="fas fa-plane-arrival"></i>
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.bookings.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.bookings.')">
-                    @lang('site.bookings') <i class="fas fa-ticket-alt"></i>
-                </x-responsive-nav-link>
-            </div>
-        </details>
+                <!-- Travel Group (Admin and Superadmin Only) -->
+                @role('administrator|superadministrator')
+                    @php
+                        $isTravelActive = request()->routeIs([
+                            'dashboard.airports.*',
+                            'dashboard.airlines.*',
+                            'dashboard.flights.*',
+                            'dashboard.bookings.*',
+                        ]);
+                    @endphp
+                    <details class="group" {{ $isTravelActive ? 'open' : '' }}>
+                        <summary
+                            class="{{ $isTravelActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                            @lang('site.travel') <i class="fas fa-plane"></i>
+                        </summary>
+                        <div class="pl-6 space-y-2 py-2">
+                            <x-responsive-nav-link href="{{ route('dashboard.airports.index') }}" :active="request()->routeIs('dashboard.airports.*')">
+                                @lang('site.airports') <i class="fas fa-plane-departure"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.airlines.index') }}" :active="request()->routeIs('dashboard.airlines.*')">
+                                @lang('site.airlines') <i class="fas fa-plane"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.flights.index') }}" :active="request()->routeIs('dashboard.flights.*')">
+                                @lang('site.flights') <i class="fas fa-plane-arrival"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.bookings.index') }}" :active="request()->routeIs('dashboard.bookings.*')">
+                                @lang('site.bookings') <i class="fas fa-ticket-alt"></i>
+                            </x-responsive-nav-link>
+                        </div>
+                    </details>
+                @endrole
 
-        <!-- Car Rental Group -->
-        @php
-            $isCarRentalActive = Str::startsWith(request()->route()->getName(), [
-                'dashboard.rentalcompanies.',
-                'dashboard.cars.',
-                'dashboard.carrentals.',
-            ]);
-        @endphp
-        <details class="group" {{ $isCarRentalActive ? 'open' : '' }}>
-            <summary
-                class="{{ $isCarRentalActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
-                @lang('site.car_rental') <i class="fas fa-car"></i>
-            </summary>
-            <div class="pl-6 space-y-2 py-2">
-                <x-responsive-nav-link href="{{ route('dashboard.rentalcompanies.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.rentalcompanies.')">
-                    @lang('site.rental_companies') <i class="fas fa-building"></i>
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.cars.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.cars.')">
-                    @lang('site.cars') <i class="fas fa-car-side"></i>
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.carrentals.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.carrentals.')">
-                    @lang('site.car_rentals') <i class="fas fa-key"></i>
-                </x-responsive-nav-link>
-            </div>
-        </details>
+                <!-- Car Rental Group (Admin and Superadmin Only) -->
+                @role('administrator|superadministrator')
+                    @php
+                        $isCarRentalActive = request()->routeIs([
+                            'dashboard.rentalcompanies.*',
+                            'dashboard.cars.*',
+                            'dashboard.carrentals.*',
+                        ]);
+                    @endphp
+                    <details class="group" {{ $isCarRentalActive ? 'open' : '' }}>
+                        <summary
+                            class="{{ $isCarRentalActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                            @lang('site.car_rental') <i class="fas fa-car"></i>
+                        </summary>
+                        <div class="pl-6 space-y-2 py-2">
+                            <x-responsive-nav-link href="{{ route('dashboard.rentalcompanies.index') }}" :active="request()->routeIs('dashboard.rentalcompanies.*')">
+                                @lang('site.rental_companies') <i class="fas fa-building"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.cars.index') }}" :active="request()->routeIs('dashboard.cars.*')">
+                                @lang('site.cars') <i class="fas fa-car-side"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.carrentals.index') }}" :active="request()->routeIs('dashboard.carrentals.*')">
+                                @lang('site.car_rentals') <i class="fas fa-key"></i>
+                            </x-responsive-nav-link>
+                        </div>
+                    </details>
+                @endrole
 
-        <!-- Hotel Group -->
-        @php
-            $isHotelActive = Str::startsWith(request()->route()->getName(), [
-                'dashboard.hotels.',
-                'dashboard.hotelbookings.',
-            ]);
-        @endphp
-        <details class="group" {{ $isHotelActive ? 'open' : '' }}>
-            <summary
-                class="{{ $isHotelActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
-                @lang('site.hotels') <i class="fas fa-hotel"></i>
-            </summary>
-            <div class="pl-6 space-y-2 py-2">
-                <x-responsive-nav-link href="{{ route('dashboard.hotels.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.hotels.')">
-                    @lang('site.hotels') <i class="fas fa-building"></i>
+                <!-- Hotel Group (Admin and Superadmin Only) -->
+                @role('administrator|superadministrator')
+                    @php
+                        $isHotelActive = request()->routeIs(['dashboard.hotels.*', 'dashboard.hotelbookings.*']);
+                    @endphp
+                    <details class="group" {{ $isHotelActive ? 'open' : '' }}>
+                        <summary
+                            class="{{ $isHotelActive ? 'block w-full ps-4 pe-4 py-2 border-l-4 border-white shadow-md text-start text-base font-medium text-white bg-blue-800 dark:bg-blue-800 rounded-md transition duration-200 ease-in-out flex justify-between items-center' : 'cursor-pointer block w-full ps-4 pe-4 py-2 rounded-lg border border-white/20 shadow-md shadow-gray-800/50 transition-all duration-200 hover:bg-gray-700 active:bg-gray-600 border-l-4 border-transparent text-start text-base font-medium text-gray-300 rounded-md transition duration-200 ease-in-out flex justify-between items-center' }}">
+                            @lang('site.hotels') <i class="fas fa-hotel"></i>
+                        </summary>
+                        <div class="pl-6 space-y-2 py-2">
+                            <x-responsive-nav-link href="{{ route('dashboard.hotels.index') }}" :active="request()->routeIs('dashboard.hotels.*')">
+                                @lang('site.hotels') <i class="fas fa-building"></i>
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('dashboard.hotelbookings.index') }}" :active="request()->routeIs('dashboard.hotelbookings.*')">
+                                @lang('site.hotel_bookings') <i class="fas fa-bed"></i>
+                            </x-responsive-nav-link>
+                        </div>
+                    </details>
+                @endrole
+
+                @role('user')
+                    <!-- Bookings (All Roles) -->
+                    <x-responsive-nav-link href="{{ route('dashboard.bookings.index') }}" :active="request()->routeIs('dashboard.bookings.*')">
+                        @lang('site.bookings') <i class="fas fa-ticket-alt"></i>
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('dashboard.carrentals.index') }}" :active="request()->routeIs('dashboard.carrentals.*')">
+                        @lang('site.car_rentals') <i class="fas fa-key"></i>
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('dashboard.hotelbookings.index') }}" :active="request()->routeIs('dashboard.hotelbookings.*')">
+                        @lang('site.hotel_bookings') <i class="fas fa-bed"></i>
+                    </x-responsive-nav-link>
+                @endrole
+
+                <!-- Adds (Admin and Superadmin Only) -->
+                @role('administrator|superadministrator')
+                    <x-responsive-nav-link href="{{ route('dashboard.adds.index') }}" :active="request()->routeIs('dashboard.adds.*')">
+                        @lang('site.adds') <i class="fas fa-ad"></i>
+                    </x-responsive-nav-link>
+                @endrole
+
+                <!-- Profile (All Roles) -->
+                <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
+                    @lang('site.profile') <i class="fas fa-user-cog"></i>
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('dashboard.hotelbookings.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.hotelbookings.')">
-                    @lang('site.hotel_bookings') <i class="fas fa-bed"></i>
-                </x-responsive-nav-link>
-            </div>
-        </details>
-
-        <!-- Adds -->
-        <x-responsive-nav-link href="{{ route('dashboard.adds.index') }}" :active="Str::startsWith(request()->route()->getName(), 'dashboard.adds.')">
-            @lang('site.adds') <i class="fas fa-ad"></i>
-        </x-responsive-nav-link>
-
-        <!-- Profile -->
-        <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">
-            @lang('site.profile') <i class="fas fa-user-cog"></i>
-        </x-responsive-nav-link>
-
-        
-    </nav>
-</aside>
+            </nav>
+        </aside>
 
         <div class="container main-b flex-1 flex flex-col -ml-64 md:ml-64">
 
@@ -231,7 +248,6 @@
 
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript">
-
         $(function() {
             $("textarea").each(function(index) {
                 // Skip if the textarea is invalid or hidden (e.g., display: none)
@@ -242,7 +258,7 @@
                 // Assign a unique ID if none exists
                 if (!this.id) {
                     this.id = 'textarea-' + index + '-' + Math.random().toString(36).substr(2,
-                    9); // Unique ID
+                        9); // Unique ID
                 }
 
                 // Initialize CKEditor only if not already initialized

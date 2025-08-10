@@ -29,7 +29,11 @@
                     <a href="{{ route('home') }}#services" class="nav-link">خدماتنا</a>
                     <a href="#about" class="nav-link">من نحن</a>
                     <a href="#contact" class="nav-link">اتصل بنا</a>
+                    @auth
+                    <a href="{{ route('dashboard') }}" class="login-btn">لوحة التحكم</a>
+                        @else
                     <a href="{{ route('login') }}" class="login-btn">تسجيل الدخول</a>
+                    @endauth
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -48,7 +52,11 @@
                         <a href="{{ route('home') }}#services" class="mobile-nav-link">خدماتنا</a>
                         <a href="#about" class="mobile-nav-link">من نحن</a>
                         <a href="#contact" class="mobile-nav-link">اتصل بنا</a>
+                        @auth
+                        <a href="{{ route('dashboard') }}" class="mobile-login-btn">لوحة التحكم</a>
+                        @else
                         <a href="{{ route('login') }}" class="mobile-login-btn">تسجيل الدخول</a>
+                        @endauth
                     </div>
                 </div>
             </div>
