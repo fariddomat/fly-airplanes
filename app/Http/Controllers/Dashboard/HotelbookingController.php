@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Hotelbooking;
+use Illuminate\Support\Facades\Auth;
 
 class HotelbookingController extends Controller
 {
 
     public function index()
     {
+        if (Auth::user()->hasRole('user')) {
+
+        $hotelbookings = \App\Models\Hotelbooking::where('user_id',auth()->id)->with(['user', 'hotel'])->get();
+        return view('dashboard.hotelbookings.index', compact('hotelbookings'));
+        }
         $hotelbookings = \App\Models\Hotelbooking::with(['user', 'hotel'])->get();
         return view('dashboard.hotelbookings.index', compact('hotelbookings'));
     }

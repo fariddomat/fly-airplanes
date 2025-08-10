@@ -12,6 +12,13 @@ class CarrentalController extends Controller
 
     public function index()
     {
+        if (auth()->user()->hasRole('user')) {
+
+
+        $carrentals = \App\Models\Carrental::where('user_id',auth()->id)->with(['user', 'car'])->get();
+        return view('dashboard.carrentals.index', compact('carrentals'));
+        }
+
         $carrentals = \App\Models\Carrental::with(['user', 'car'])->get();
         return view('dashboard.carrentals.index', compact('carrentals'));
     }

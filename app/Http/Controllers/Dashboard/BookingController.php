@@ -12,17 +12,22 @@ class BookingController extends Controller
 
     public function index()
     {
+        if (auth()->user()->hasRole('user')) {
+
+            $bookings = \App\Models\Booking::where('user_id', auth()->id())->with(['user', 'flight', 'returnFlight'])->get();
+            return view('dashboard.bookings.index', compact('bookings'));
+        }
         $bookings = \App\Models\Booking::with(['user', 'flight', 'returnFlight'])->get();
         return view('dashboard.bookings.index', compact('bookings'));
     }
 
     public function create()
     {
-                $users = \App\Models\User::all();
+        $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
         $returnFlights = \App\Models\ReturnFlight::all();
 
-        return view('dashboard.bookings.create', compact([],'users', 'flights', 'returnFlights'));
+        return view('dashboard.bookings.create', compact([], 'users', 'flights', 'returnFlights'));
     }
 
     public function store(Request $request)
@@ -47,7 +52,7 @@ class BookingController extends Controller
     public function show($id)
     {
         $booking = \App\Models\Booking::findOrFail($id);
-                $users = \App\Models\User::all();
+        $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
         $returnFlights = \App\Models\ReturnFlight::all();
 
@@ -57,7 +62,7 @@ class BookingController extends Controller
     public function edit($id)
     {
         $booking = \App\Models\Booking::findOrFail($id);
-                $users = \App\Models\User::all();
+        $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
         $returnFlights = \App\Models\ReturnFlight::all();
 
@@ -84,7 +89,7 @@ class BookingController extends Controller
         return redirect()->route('dashboard.bookings.index')->with('success', 'Booking updated successfully.');
     }
 
-        public function destroy($id)
+    public function destroy($id)
     {
         $booking = \App\Models\Booking::findOrFail($id);
         $booking->delete();
