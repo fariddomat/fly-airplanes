@@ -18,7 +18,7 @@
                 <label class="block text-sm font-medium text-gray-700">@lang('site.flight_id')</label>
                 <p class="text-gray-900">
                     @isset($booking->flight)
-                        {{ $booking->flight->name ?? '—' }}
+                        {{ $booking->flight->airline->name ?? '—' }}
                     @else
                         {{ $booking->flight_id ?? '—' }}
                     @endisset
@@ -27,7 +27,7 @@
                 <label class="block text-sm font-medium text-gray-700">@lang('site.return_flight_id')</label>
                 <p class="text-gray-900">
                     @isset($booking->returnFlight)
-                        {{ $booking->returnFlight->name ?? '—' }}
+                        {{ $booking->returnFlight->airline->name ?? '—' }}
                     @else
                         {{ $booking->return_flight_id ?? '—' }}
                     @endisset
@@ -37,7 +37,7 @@
                 <p class="text-gray-900">{{ $booking->num_passengers ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_date')</label>
-                <p class="text-gray-900">{{ $booking->booking_date ? $booking->booking_date->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $booking->booking_date ? $booking->booking_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.total_price')</label>
                 <p class="text-gray-900">{{ $booking->total_price ?? '—' }}</p>

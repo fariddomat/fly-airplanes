@@ -77,4 +77,18 @@ class User extends Authenticatable implements LaratrustUser
         });
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function carrentals()
+    {
+        return $this->hasMany(Carrental::class);
+    }
+
+    public function hotelbookings()
+    {
+        return $this->hasMany(Hotelbooking::class);
+    }
 }

@@ -15,7 +15,7 @@ class HotelbookingController extends Controller
     {
         if (Auth::user()->hasRole('user')) {
 
-        $hotelbookings = \App\Models\Hotelbooking::where('user_id',auth()->id)->with(['user', 'hotel'])->get();
+        $hotelbookings = \App\Models\Hotelbooking::where('user_id',auth()->id())->with(['user', 'hotel'])->get();
         return view('dashboard.hotelbookings.index', compact('hotelbookings'));
         }
         $hotelbookings = \App\Models\Hotelbooking::with(['user', 'hotel'])->get();

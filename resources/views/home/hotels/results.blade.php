@@ -186,7 +186,7 @@
                             <div class="car-card" data-price="{{ $hotel->price_per_night }}" data-rating="{{ $hotel->rating ?? 4.0 }}" data-type="{{ $hotel->type ?? 'hotel' }}">
                                 <div class="car-header">
                                     <div class="car-image">
-                                        <img src="{{ asset('images/hotels/' . ($hotel->image ?? 'default.png')) }}" alt="{{ $hotel->name }}">
+                                        <img src="{{ Storage::url($hotel->image) }}" alt="{{ $hotel->name }}">
                                         <div class="car-badge {{ $hotel->type ?? 'hotel' }}">
                                             {{ ['hotel' => 'فندق', 'resort' => 'منتجع', 'apartment' => 'شقة فندقية', 'villa' => 'فيلا'][$hotel->type ?? 'hotel'] }}
                                         </div>

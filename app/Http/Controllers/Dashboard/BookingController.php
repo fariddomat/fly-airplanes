@@ -25,7 +25,7 @@ class BookingController extends Controller
     {
         $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
-        $returnFlights = \App\Models\ReturnFlight::all();
+        $returnFlights = \App\Models\Flight::all();
 
         return view('dashboard.bookings.create', compact([], 'users', 'flights', 'returnFlights'));
     }
@@ -54,7 +54,7 @@ class BookingController extends Controller
         $booking = \App\Models\Booking::findOrFail($id);
         $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
-        $returnFlights = \App\Models\ReturnFlight::all();
+        $returnFlights = \App\Models\Flight::all();
 
         return view('dashboard.bookings.show', compact('booking'));
     }
@@ -64,7 +64,7 @@ class BookingController extends Controller
         $booking = \App\Models\Booking::findOrFail($id);
         $users = \App\Models\User::all();
         $flights = \App\Models\Flight::all();
-        $returnFlights = \App\Models\ReturnFlight::all();
+        $returnFlights = \App\Models\Flight::all();
 
         return view('dashboard.bookings.edit', compact('booking', 'users', 'flights', 'returnFlights'));
     }

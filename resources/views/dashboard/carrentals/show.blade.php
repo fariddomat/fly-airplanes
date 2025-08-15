@@ -31,13 +31,13 @@
                 <p class="text-gray-900">{{ $carrental->return_location ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.pickup_date')</label>
-                <p class="text-gray-900">{{ $carrental->pickup_date ? $carrental->pickup_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $carrental->pickup_date ? $carrental->pickup_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.pickup_time')</label>
                 <p class="text-gray-900">{{ $carrental->pickup_time ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.return_date')</label>
-                <p class="text-gray-900">{{ $carrental->return_date ? $carrental->return_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $carrental->return_date ? $carrental->return_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.dropoff_time')</label>
                 <p class="text-gray-900">{{ $carrental->dropoff_time ?? '—' }}</p>
@@ -46,7 +46,7 @@
                 <p class="text-gray-900">{{ $carrental->total_price ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_date')</label>
-                <p class="text-gray-900">{{ $carrental->booking_date ? $carrental->booking_date->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $carrental->booking_date ? $carrental->booking_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <p class="text-gray-900">{{ $carrental->status ?? '—' }}</p>

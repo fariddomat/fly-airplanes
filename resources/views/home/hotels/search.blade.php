@@ -15,6 +15,14 @@
                     <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
                 </div>
             @endif
+              @if ($errors->any())
+                    <div
+                        style="background-color: rgb(219, 124, 124); width: 90%; text-align: center; color:white; padding: 2rem; margin-bottom: 1rem; border-radius: 15px">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
             <div class="search-header">
                 <div class="breadcrumb">
                     <a href="{{ route('home') }}">الرئيسية</a>

@@ -18,7 +18,7 @@ class HotelController extends Controller
 
     public function create()
     {
-        
+
         return view('dashboard.hotels.create', compact([],));
     }
 
@@ -38,27 +38,27 @@ class HotelController extends Controller
             'amenities' => 'nullable|json',
             'image' => 'nullable|image|max:2048'
         ]);
-                if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('public/images');
         }
 
         $hotel = \App\Models\Hotel::create($validated);
-        
+
         return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel created successfully.');
     }
 
     public function show($id)
     {
         $hotel = \App\Models\Hotel::findOrFail($id);
-        
+
         return view('dashboard.hotels.show', compact('hotel'));
     }
 
     public function edit($id)
     {
         $hotel = \App\Models\Hotel::findOrFail($id);
-        
-        return view('dashboard.hotels.edit', compact('hotel', ));
+
+        return view('dashboard.hotels.edit', compact('hotel',));
     }
 
     public function update(Request $request, $id)
@@ -78,17 +78,18 @@ class HotelController extends Controller
             'amenities' => 'nullable|json',
             'image' => 'nullable|image|max:2048'
         ]);
-                if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('public/images');
+        if ($request->hasFile('image')) {
             if ($hotel->image) Storage::delete($hotel->image);
+            $validated['image'] = $request->file('image')->store('public/images');
         }
 
+
         $hotel->update($validated);
-        
+
         return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel updated successfully.');
     }
 
-        public function destroy($id)
+    public function destroy($id)
     {
         $hotel = \App\Models\Hotel::findOrFail($id);
         $hotel->delete();

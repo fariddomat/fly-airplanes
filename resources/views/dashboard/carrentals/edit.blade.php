@@ -73,7 +73,7 @@
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_date')</label>
-                <input type="datetime-local" name="booking_date" value="{{ old('booking_date', $carrental->booking_date ? $carrental->booking_date->format('Y-m-d\TH:i') : '') }}" class="w-full border border-gray-300 rounded p-2">
+                <input type="datetime-local" name="booking_date" value="{{ old('booking_date', $carrental->booking_date ? $carrental->booking_date : '') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('booking_date')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror

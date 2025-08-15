@@ -181,11 +181,11 @@
                 @endrole
 
                 <!-- Adds (Admin and Superadmin Only) -->
-                @role('administrator|superadministrator')
+                {{-- @role('administrator|superadministrator')
                     <x-responsive-nav-link href="{{ route('dashboard.adds.index') }}" :active="request()->routeIs('dashboard.adds.*')">
                         @lang('site.adds') <i class="fas fa-ad"></i>
                     </x-responsive-nav-link>
-                @endrole
+                @endrole --}}
 
                 <!-- Profile (All Roles) -->
                 <x-responsive-nav-link href="{{ route('profile') }}" :active="request()->routeIs('profile')">

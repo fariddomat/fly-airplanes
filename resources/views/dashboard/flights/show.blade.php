@@ -34,10 +34,10 @@
                 </p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.departure_time')</label>
-                <p class="text-gray-900">{{ $flight->departure_time ? $flight->departure_time->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $flight->departure_time ? $flight->departure_time : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.arrival_time')</label>
-                <p class="text-gray-900">{{ $flight->arrival_time ? $flight->arrival_time->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $flight->arrival_time ? $flight->arrival_time : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.flight_number')</label>
                 <p class="text-gray-900">{{ $flight->flight_number ?? '—' }}</p>

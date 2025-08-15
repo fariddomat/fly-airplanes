@@ -25,10 +25,10 @@
                 </p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.check_in_date')</label>
-                <p class="text-gray-900">{{ $hotelbooking->check_in_date ? $hotelbooking->check_in_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $hotelbooking->check_in_date ? $hotelbooking->check_in_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.check_out_date')</label>
-                <p class="text-gray-900">{{ $hotelbooking->check_out_date ? $hotelbooking->check_out_date->format('Y-m-d" . (date === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $hotelbooking->check_out_date ? $hotelbooking->check_out_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.room_type')</label>
                 <p class="text-gray-900">{{ $hotelbooking->room_type ?? '—' }}</p>
@@ -37,7 +37,7 @@
                 <p class="text-gray-900">{{ $hotelbooking->total_price ?? '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_date')</label>
-                <p class="text-gray-900">{{ $hotelbooking->booking_date ? $hotelbooking->booking_date->format('Y-m-d" . (datetime === 'datetime' ? ' H:i' : '') . "') : '—' }}</p>
+                <p class="text-gray-900">{{ $hotelbooking->booking_date ? $hotelbooking->booking_date : '—' }}</p>
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <p class="text-gray-900">{{ $hotelbooking->status ?? '—' }}</p>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ImageGalleryController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\SiteController;
@@ -44,7 +45,7 @@ Route::post('/hotels/search', [SiteController::class, 'searchHotels'])->name('ho
 Route::post('/hotels/book', [SiteController::class, 'bookHotel'])->middleware('auth')->name('hotels.book');
 
 Route::middleware(['web'])->group(function () {
-    Route::view('dashboard', 'dashboard')
+    Route::get('dashboard', [DashboardController::class, 'index'])
         ->middleware(['auth', 'verified'])
         ->name('dashboard');
 

@@ -27,8 +27,8 @@
                     <a href="{{ route('home') }}" class="nav-link">الرئيسية</a>
                     <a href="{{ route('home') }}#booking" class="nav-link">الحجوزات</a>
                     <a href="{{ route('home') }}#services" class="nav-link">خدماتنا</a>
-                    <a href="#about" class="nav-link">من نحن</a>
-                    <a href="#contact" class="nav-link">اتصل بنا</a>
+                    <a href="{{ route('home') }}#about" class="nav-link">من نحن</a>
+                    <a href="{{ route('home') }}#contact" class="nav-link">اتصل بنا</a>
                     @auth
                     <a href="{{ route('dashboard') }}" class="login-btn">لوحة التحكم</a>
                         @else
@@ -50,8 +50,8 @@
                         <a href="{{ route('home') }}" class="mobile-nav-link">الرئيسية</a>
                         <a href="{{ route('home') }}#booking" class="mobile-nav-link">الحجوزات</a>
                         <a href="{{ route('home') }}#services" class="mobile-nav-link">خدماتنا</a>
-                        <a href="#about" class="mobile-nav-link">من نحن</a>
-                        <a href="#contact" class="mobile-nav-link">اتصل بنا</a>
+                        <a href="{{ route('home') }}#about" class="mobile-nav-link">من نحن</a>
+                        <a href="{{ route('home') }}#contact" class="mobile-nav-link">اتصل بنا</a>
                         @auth
                         <a href="{{ route('dashboard') }}" class="mobile-login-btn">لوحة التحكم</a>
                         @else

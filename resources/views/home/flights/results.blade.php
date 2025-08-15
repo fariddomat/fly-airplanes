@@ -196,7 +196,7 @@
                                  data-departure="{{ \Carbon\Carbon::parse($flight->departure_time)->hour >= 6 && \Carbon\Carbon::parse($flight->departure_time)->hour < 12 ? 'morning' : (\Carbon\Carbon::parse($flight->departure_time)->hour < 18 ? 'afternoon' : 'evening') }}">
                                 <div class="flight-header">
                                     <div class="airline-logo">
-                                        <img src="{{ asset('images/airlines/' . ($flight->airline->img ?? 'default.png')) }}" alt="{{ $flight->airline->name }}">
+                                        <img src="{{ Storage::url($flight->airline->img) }}" alt="{{ $flight->airline->name }}">
                                     </div>
                                     <div class="airline-name">{{ $flight->airline->name }}</div>
                                     <div class="flight-number">{{ $flight->flight_number }}</div>
