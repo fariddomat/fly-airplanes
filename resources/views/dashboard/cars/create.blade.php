@@ -9,7 +9,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.rentalcompany_id')</label>
                 <select name="rentalcompany_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_rentalcompany_id')</option>
+                    <option value="">@lang('site.rentalcompany_id')</option>
                     @foreach ($rentalcompanies as $option)
                         <option value="{{ $option->id }}" {{ old('rentalcompany_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -32,7 +32,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.type')</label>
                 <select name="type" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_type')</option>
+                    <option value="">@lang('site.type')</option>
                     <option value="economy" {{ old('type') == 'economy' ? 'selected' : '' }}>economy</option>
                     <option value="compact" {{ old('type') == 'compact' ? 'selected' : '' }}>compact</option>
                     <option value="sedan" {{ old('type') == 'sedan' ? 'selected' : '' }}>sedan</option>
@@ -48,7 +48,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.transmission')</label>
                 <select name="transmission" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_transmission')</option>
+                    <option value="">@lang('site.transmission')</option>
                     <option value="automatic" {{ old('transmission') == 'automatic' ? 'selected' : '' }}>automatic</option>
                     <option value="manual" {{ old('transmission') == 'manual' ? 'selected' : '' }}>manual</option>
 
@@ -59,7 +59,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.fuel_type')</label>
                 <select name="fuel_type" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_fuel_type')</option>
+                    <option value="">@lang('site.fuel_type')</option>
                     <option value="petrol" {{ old('fuel_type') == 'petrol' ? 'selected' : '' }}>petrol</option>
                     <option value="diesel" {{ old('fuel_type') == 'diesel' ? 'selected' : '' }}>diesel</option>
                     <option value="hybrid" {{ old('fuel_type') == 'hybrid' ? 'selected' : '' }}>hybrid</option>

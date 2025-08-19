@@ -9,7 +9,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.user_id')</label>
                 <select name="user_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_user_id')</option>
+                    <option value="">@lang('site.user_id')</option>
                     @foreach ($users as $option)
                         <option value="{{ $option->id }}" {{ old('user_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -20,7 +20,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.flight_id')</label>
                 <select name="flight_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_flight_id')</option>
+                    <option value="">@lang('site.flight_id')</option>
                     @foreach ($flights as $option)
                         <option value="{{ $option->id }}" {{ old('flight_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -31,7 +31,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.return_flight_id')</label>
                 <select name="return_flight_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_return_flight_id')</option>
+                    <option value="">@lang('site.return_flight_id')</option>
                     @foreach ($returnFlights as $option)
                         <option value="{{ $option->id }}" {{ old('return_flight_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -60,7 +60,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <select name="status" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_status')</option>
+                    <option value="">@lang('site.status')</option>
                     <option value="Confirmed" {{ old('status') == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                     <option value="Cancelled" {{ old('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                     <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
@@ -72,7 +72,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.trip_type')</label>
                 <select name="trip_type" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_trip_type')</option>
+                    <option value="">@lang('site.trip_type')</option>
                     <option value="oneway" {{ old('trip_type') == 'oneway' ? 'selected' : '' }}>oneway</option>
                     <option value="roundtrip" {{ old('trip_type') == 'roundtrip' ? 'selected' : '' }}>roundtrip</option>
                     <option value="multicity" {{ old('trip_type') == 'multicity' ? 'selected' : '' }}>multicity</option>

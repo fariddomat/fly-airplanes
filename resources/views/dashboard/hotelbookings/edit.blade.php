@@ -10,7 +10,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.user_id')</label>
                 <select name="user_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_user_id')</option>
+                    <option value="">@lang('site.user_id')</option>
                     @foreach ($users as $option)
                         <option value="{{ $option->id }}" {{ $hotelbooking->user_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -21,7 +21,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.hotel_id')</label>
                 <select name="hotel_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_hotel_id')</option>
+                    <option value="">@lang('site.hotel_id')</option>
                     @foreach ($hotels as $option)
                         <option value="{{ $option->id }}" {{ $hotelbooking->hotel_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -55,14 +55,14 @@
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_date')</label>
-                <input type="datetime-local" name="booking_date" value="{{ old('booking_date', $hotelbooking->booking_date ? $hotelbooking->booking_date : '' }}" class="w-full border border-gray-300 rounded p-2">
+                <input type="datetime-local" name="booking_date" value="{{ old('booking_date', $hotelbooking->booking_date ? $hotelbooking->booking_date : '') }}" class="w-full border border-gray-300 rounded p-2">
                 @error('booking_date')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <select name="status" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_status')</option>
+                    <option value="">@lang('site.status')</option>
                     <option value="Confirmed" {{ old('status', $hotelbooking->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                     <option value="Cancelled" {{ old('status', $hotelbooking->status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                     <option value="Pending" {{ old('status', $hotelbooking->status) == 'Pending' ? 'selected' : '' }}>Pending</option>

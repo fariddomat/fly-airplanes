@@ -63,13 +63,22 @@
 .bg-gray-900,
 .primary-bg {
     background-color: unset  ;
-    background: #173c4d  ;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)  ;
+}
+.bg-blue-500{
+    background-color: unset;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-blue-800{
+    background-color: unset;
+    background: linear-gradient(135deg, #dc267f, #ff6b35);
 }
 
 .text-gray-900,
 .text-black,
 .primary-color {
-    color: #173c4d  ;
+    color: linear-gradient(135deg, #667eea 0%, #764ba2 100%)  ;
 }
 
 .hover\:bg-orange-500:hover,
@@ -110,7 +119,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Header Styles */
 .header {
     transition: all 0.3s ease-in-out;
-    background: #173c4d;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     /* Black background */
     color: #ffffff;
     /* White text */
@@ -183,7 +192,7 @@ html[dir="rtl"] .mobile-menu.open {
 
 /* Footer Styles */
 .footer {
-    background: #173c4d;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     /* Black background */
     color: #ffffff;
     /* White text */
@@ -237,7 +246,7 @@ html[dir="rtl"] .mobile-menu.open {
 
 .loader {
     border: 8px solid rgb(213 136 75); /* Matches your updated border-orange-500 */
-    border-top: 8px solid #173c4d; /* Explicitly set the top border to black */
+    border-top: 8px solid linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Explicitly set the top border to black */
     border-radius: 100%; /* Ensure circular shape */
     animation: spin 1s linear infinite; /* Tailwind's animate-spin uses this */
 }
@@ -337,7 +346,7 @@ header nav{
 .contact-icon {
     width: 50px;
     height: 50px;
-    background-color: #173c4d;
+    background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     display: flex;
     align-items: center;
@@ -351,7 +360,7 @@ header nav{
     max-width: 0;
     overflow: hidden;
     white-space: nowrap;
-    background-color: #173c4d;
+    background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 0;
     margin-right: 0;

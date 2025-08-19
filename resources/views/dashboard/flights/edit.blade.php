@@ -11,7 +11,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.airline_id')</label>
                 <select name="airline_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_airline_id')</option>
+                    <option value="">@lang('site.airline_id')</option>
                     @foreach ($airlines as $option)
                         <option value="{{ $option->id }}" {{ $flight->airline_id == $option->id ? 'selected' : '' }}>
                             {{ $option->name }}</option>
@@ -24,7 +24,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.departure_airport_id')</label>
                 <select name="departure_airport_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_departure_airport_id')</option>
+                    <option value="">@lang('site.departure_airport_id')</option>
                     @foreach ($departureAirports as $option)
                         <option value="{{ $option->id }}"
                             {{ $flight->departure_airport_id == $option->id ? 'selected' : '' }}>{{ $option->airport_name }}
@@ -38,7 +38,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.arrival_airport_id')</label>
                 <select name="arrival_airport_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_arrival_airport_id')</option>
+                    <option value="">@lang('site.arrival_airport_id')</option>
                     @foreach ($arrivalAirports as $option)
                         <option value="{{ $option->id }}"
                             {{ $flight->arrival_airport_id == $option->id ? 'selected' : '' }}>{{ $option->airport_name }}
@@ -95,7 +95,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.class')</label>
                 <select name="class" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_class')</option>
+                    <option value="">@lang('site.class')</option>
                     <option value="Economy" {{ old('class', $flight->class) == 'Economy' ? 'selected' : '' }}>Economy
                     </option>
                     <option value="Business" {{ old('class', $flight->class) == 'Business' ? 'selected' : '' }}>
@@ -119,7 +119,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.stops')</label>
                 <select name="stops" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_stops')</option>
+                    <option value="">@lang('site.stops')</option>
                     <option value="direct" {{ old('stops', $flight->stops) == 'direct' ? 'selected' : '' }}>direct
                     </option>
                     <option value="one-stop" {{ old('stops', $flight->stops) == 'one-stop' ? 'selected' : '' }}>

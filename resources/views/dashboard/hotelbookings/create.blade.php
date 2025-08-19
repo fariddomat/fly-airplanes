@@ -9,7 +9,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.user_id')</label>
                 <select name="user_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_user_id')</option>
+                    <option value="">@lang('site.user_id')</option>
                     @foreach ($users as $option)
                         <option value="{{ $option->id }}" {{ old('user_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -20,7 +20,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.hotel_id')</label>
                 <select name="hotel_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_hotel_id')</option>
+                    <option value="">@lang('site.hotel_id')</option>
                     @foreach ($hotels as $option)
                         <option value="{{ $option->id }}" {{ old('hotel_id') == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -61,7 +61,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <select name="status" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_status')</option>
+                    <option value="">@lang('site.status')</option>
                     <option value="Confirmed" {{ old('status') == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                     <option value="Cancelled" {{ old('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                     <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>

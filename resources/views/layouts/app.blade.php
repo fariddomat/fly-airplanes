@@ -74,9 +74,13 @@
             <h2 class="text-xl font-bold mb-4">@lang('site.control_panel')</h2>
 
             <nav class="mt-5 space-y-3">
+                 <x-responsive-nav-link href="{{ route('home') }}">
+                    @lang('site.home') <i class="fas fa-home"></i>
+                </x-responsive-nav-link>
+
                 <!-- Dashboard -->
                 <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    @lang('site.home') <i class="fas fa-home"></i>
+                    لوحة التحكم <i class="fas fa-dashboard"></i>
                 </x-responsive-nav-link>
 
                 <!-- Users (Superadministrator Only) -->
@@ -194,7 +198,7 @@
             </nav>
         </aside>
 
-        <div class="container main-b flex-1 flex flex-col -ml-64 md:ml-64">
+        <div class="container main-b flex-1 flex flex-col -ml-64 md:ml-64" style="padding: 0">
 
             <!-- Navbar -->
             <header class="bg-blue-800 text-white  shadow p-4 flex justify-between items-center">

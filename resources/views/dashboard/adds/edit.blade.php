@@ -10,7 +10,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.booking_id')</label>
                 <select name="booking_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_booking_id')</option>
+                    <option value="">@lang('site.booking_id')</option>
                     @foreach ($bookings as $option)
                         <option value="{{ $option->id }}" {{ $add->booking_id == $option->id ? 'selected' : '' }}>{{ $option->id }}</option>
                     @endforeach
@@ -29,7 +29,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.carrental_id')</label>
                 <select name="carrental_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_carrental_id')</option>
+                    <option value="">@lang('site.carrental_id')</option>
                     @foreach ($carrentals as $option)
                         <option value="{{ $option->id }}" {{ $add->carrental_id == $option->id ? 'selected' : '' }}>{{ $option->id }}</option>
                     @endforeach
@@ -40,7 +40,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.hotelbooking_id')</label>
                 <select name="hotelbooking_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_hotelbooking_id')</option>
+                    <option value="">@lang('site.hotelbooking_id')</option>
                     @foreach ($hotelbookings as $option)
                         <option value="{{ $option->id }}" {{ $add->hotelbooking_id == $option->id ? 'selected' : '' }}>{{ $option->id }}</option>
                     @endforeach

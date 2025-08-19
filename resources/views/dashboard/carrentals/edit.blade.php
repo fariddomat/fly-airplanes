@@ -10,7 +10,7 @@
                         <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.user_id')</label>
                 <select name="user_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_user_id')</option>
+                    <option value="">@lang('site.user_id')</option>
                     @foreach ($users as $option)
                         <option value="{{ $option->id }}" {{ $carrental->user_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -21,7 +21,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.car_id')</label>
                 <select name="car_id" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_car_id')</option>
+                    <option value="">@lang('site.car_id')</option>
                     @foreach ($cars as $option)
                         <option value="{{ $option->id }}" {{ $carrental->car_id == $option->id ? 'selected' : '' }}>{{ $option->name }}</option>
                     @endforeach
@@ -80,7 +80,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.status')</label>
                 <select name="status" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_status')</option>
+                    <option value="">@lang('site.status')</option>
                     <option value="Confirmed" {{ old('status', $carrental->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                     <option value="Cancelled" {{ old('status', $carrental->status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                     <option value="Pending" {{ old('status', $carrental->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
@@ -92,7 +92,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.rental_type')</label>
                 <select name="rental_type" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_rental_type')</option>
+                    <option value="">@lang('site.rental_type')</option>
                     <option value="same-location" {{ old('rental_type', $carrental->rental_type) == 'same-location' ? 'selected' : '' }}>same-location</option>
                     <option value="different-location" {{ old('rental_type', $carrental->rental_type) == 'different-location' ? 'selected' : '' }}>different-location</option>
 
@@ -103,7 +103,7 @@
             </div>            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">@lang('site.driver_age')</label>
                 <select name="driver_age" class="w-full border border-gray-300 rounded p-2">
-                    <option value="">@lang('site.select_driver_age')</option>
+                    <option value="">@lang('site.driver_age')</option>
                     <option value="21-24" {{ old('driver_age', $carrental->driver_age) == '21-24' ? 'selected' : '' }}>21-24</option>
                     <option value="25-29" {{ old('driver_age', $carrental->driver_age) == '25-29' ? 'selected' : '' }}>25-29</option>
                     <option value="30-64" {{ old('driver_age', $carrental->driver_age) == '30-64' ? 'selected' : '' }}>30-64</option>

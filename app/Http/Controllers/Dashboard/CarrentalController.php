@@ -9,6 +9,13 @@ use App\Models\Carrental;
 
 class CarrentalController extends Controller
 {
+    public function __construct()
+    {
+        // Restrict all methods except index to administrator and superadministrator
+        $this->middleware(['role:administrator|superadministrator'])->except('index');
+        // Ensure index is accessible to all authenticated users
+        $this->middleware(['auth', 'verified'])->only('index');
+    }
 
     public function index()
     {

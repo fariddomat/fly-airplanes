@@ -366,5 +366,6 @@ return [
     'flight_bookings'=>'حجوزات الطيران',
     'recent_bookings'=>'الحجوزات الاخيرة',
     'recent_users'=>'المستخدمين المضافين حديثا',
+    'year'=>'السنة',
 
 ];
